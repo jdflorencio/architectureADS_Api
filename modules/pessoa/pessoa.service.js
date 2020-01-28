@@ -1,6 +1,4 @@
 const pessoaModel = require('../../dao/models/pessoa.model');
-const telefoneModel = require('../../dao/models/telefone.model');
-const enderecoModel = require('../../dao/models/endereco.model');
 const Promise = require('bluebird');
 
 const helper = require('./pessoa.helper');
