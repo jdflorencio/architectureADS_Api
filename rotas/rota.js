@@ -2,10 +2,10 @@ const rota = require('express').Router();
 const pessoaController = require('../modules/pessoa/pessoa.controller')
 //routes.use(verify)
 
-rota.get('/', pessoaController.findAll)
-rota.get('/:idCliente', pessoaController.findOne)
-rota.post('/' ,pessoaController.save)
-rota.put('/', pessoaController.update)
-rota.delete('/:idCliente', pessoaController.delete)
+rota.get('/cliente', pessoaController.findAll)
+rota.get('/cliente/:id', pessoaController.findOne)
+rota.post('/cliente' ,pessoaController.save)
+rota.put('/cliente', pessoaController.update)
+rota.delete('/cliente/:id', pessoaController.delete)
 
 module.exports =  rota
