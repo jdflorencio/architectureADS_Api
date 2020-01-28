@@ -1,50 +1,77 @@
-const {Sequelize, connection} = require('../connection');
-const Model = Sequelize.Model;
-const pessoaEndereco = require('./endereco.model');
-const pessoaTelefone = require('./telefone.model');
+'use strict';
+
+const {Sequelize, DataTypes ,connection} = require('../connection')
+const Model = Sequelize.Model
+const Telefone = require('./telefone.model')
+const Endereco = require('./endereco.model')
 
 class Pessoa extends Model {}
-Pessoa.init( {
-		id: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			primaryKey: true,
-			autoIncrement: true,
-			field: 'id'
-		},
-		nome: {
-			type: Sequelize.STRING(60),
-			allowNull: false,
-			field: 'nome'
-		},
-		dataNascimento: {
-			type: Sequelize.DATEONLY,
-			allowNull: true,
-			field: 'data_nascimento'
-		}
-	}, {
-		sequelize: connection,
+Pessoa.init({  
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true, 
+    autoIncrement: true
+  },  
+  tipo: {
+    type: DataTypes.ENUM,
+    values: ['pf', 'pj']
+    },
+  nome: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  sexo: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  nome_fantasia: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  // infor pessoas
+  data_nascimento: {
+    type: DataTypes.DATE
+  },
+  data_fundacao: DataTypes.DATE,
+  nacionalidade: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  estado_civil: DataTypes.STRING,
+  rg: DataTypes.STRING,
+  cpf_cnpj: DataTypes.STRING,
+  inscricao_estadual: DataTypes.STRING, 
+  //  contato
+  email : {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  createdAt: {
+    type: DataTypes.DATE,
+  },
+  updatedAt: DataTypes.DATE
+},{
+    sequelize: connection,
+    modelName: 'pessoa',
 		tableName: 'pessoa',
 		freezeTableName : true,
 		timestamps : false,
 		name:{
-            singular:'pessoa',
-            plural: 'pessoa'
+      singular:'pessoa',
+      plural: 'pessoas'
 		},
 		underscored : false
     });
 
-    Pessoa.hasMany(pessoaEndereco, {
-        foreignKey: 'pessoa_id',
+    Pessoa.hasMany(Endereco, {
+        foreignKey: 'pessoaId',
         onDelete: 'CASCADE',
         onUpdate: 'NO ACTION'
     });
     
-    Pessoa.hasMany(pessoaTelefone, {
-        foreignKey: 'pessoa_id',
+    Pessoa.hasMany(Telefone, {
+        foreignKey: 'pessoaId',
         onDelete: 'CASCADE',
         onUpdate: 'NO ACTION'
-    }); 
-
+    });
 module.exports = Pessoa;    
-
