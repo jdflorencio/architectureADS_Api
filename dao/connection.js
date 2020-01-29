@@ -1,8 +1,9 @@
 'use strict';
 
-const {Sequelize, DataTypes} = require('sequelize');
+const {Sequelize, DataTypes} = require('sequelize')
 
 const config = {
+
     "username": "root",
     "password": "123",
     "database": "simpleERP",
