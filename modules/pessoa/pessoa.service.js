@@ -48,14 +48,13 @@ class PessoaService {
 				message         : "Dados de entrada inválidos, verifique os campos obrigatorios",
 				error           : validPayload.error.msg
 			});
+
 		}
 
 		const modelBuild = pessoaModel.build(validPayload.value)
-
 		try {
 
 			const pessoa = await modelBuild.save({ transaction })
-
 			validPayload.value.enderecos.map(endereco => endereco.pessoaId = pessoa.id)
 			validPayload.value.telefones.map(telefone => telefone.pessoaId = pessoa.id)
 
@@ -69,29 +68,16 @@ class PessoaService {
 			})
 
 			await transaction.commit()
+			return {status: 200, msg: "Cliente adicionado com Sucesso!"}
 
 		} catch (error) {
-
-			console.log(error)
 			await transaction.rollback()
 		}
 	}
 
-	async deleting(req) {
-    try{
-
-      let transaction = await sequelize.transaction()
-      const { idCliente } = req.params      
-      await clientes.destroy({ where: {id: idCliente}}, {transaction: transaction})
-      await transaction.commit();
-
-      return {status: 200, msg: "Cliente removido com Sucesso!"}
-
-    } catch ( error ) {
-      await transaction.rollback()
-      return this.retornoExecao( error )
-    }
-  }
+	async deleting(pessoaId) {
+		return await pessoaModel.destroy({ where: {id: pessoaId}})
+	}
 }
 
 let pessoa = new PessoaService();

@@ -4,12 +4,10 @@ class PessoaController {
    async save(req, res) {
 		
 		try {
-
 			const result = await pessoaService.save(req.body);
 			res.json({sucesso: true, data: result})
-
 		} catch (error) {
-			res.status(409).json({sucesso: false, erro: error})   
+			res.status(409).json({sucesso: false, erro: error})
 		}
 	}
 
@@ -46,7 +44,14 @@ class PessoaController {
 	}
 	
 	async delete(req, res) {
-		console.log('deleting....')
+		try {
+			const { id } = req.params
+			 await pessoaService.deleting(id)
+			res.status(200).json({sucesso: true, data: `Cliente codigo: ${id} removido Com sucesso!`})
+
+		} catch ( error ) {
+			res.status(409).json({sucesso: false, erro: error})
+		}	
 	}
 }
 

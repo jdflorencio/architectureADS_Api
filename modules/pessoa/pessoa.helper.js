@@ -16,13 +16,23 @@ const telefoneSchema = {
 }
 
 const pessoaSchema = {    
-    nome       : Joi.string().min(3).max(60).required(),
-    nascimento : Joi.date().iso(),
-    enderecos  : Joi.array().items(Joi.object().keys(enderecoSchema)).allow(null),
-    telefones  : Joi.array().items(Joi.object().keys(telefoneSchema)).allow(null)          
+    id                  : Joi.number().integer().min(1),
+    nome                : Joi.string().min(3).max(60).required(),
+    nascimento          : Joi.date().iso(),
+    enderecos           : Joi.array().items(Joi.object().keys(enderecoSchema)).allow(null),
+    telefones           : Joi.array().items(Joi.object().keys(telefoneSchema)).allow(null),
+    cpf_cnpj            : Joi.string().min(14).max(60).required(),
+    data_fundacao       : Joi.date().allow(null),
+    data_nascimento     : Joi.date().allow(null),
+    email               : Joi.string().email().allow(null),
+    estado_civil        : Joi.string().allow(null),
+    inscricao_estadual  : Joi.string(),
+    nacionalidade       : Joi.string().allow(null),
+    nome_fantasia       : Joi.string().allow(null),
+    rg                  : Joi.string().allow(null),
+    sexo                : Joi.string().allow(null),
+    tipo                : Joi.string().min(2).max(2).required()
 }
-
-
 class PessoaHelper {
 
     constructor() {
