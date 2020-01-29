@@ -6,11 +6,10 @@ class PessoaController {
 		try {
 
 			const result = await pessoaService.save(req.body);
-			console.log('>>>>>>>>', result)
 			res.json({sucesso: true, data: result})
 
 		} catch (error) {
-			res.status(409).json({sucesso: false, erro: error.message})   
+			res.status(409).json({sucesso: false, erro: error})   
 		}
 	}
 

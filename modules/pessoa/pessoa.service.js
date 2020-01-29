@@ -56,8 +56,8 @@ class PessoaService {
 
 			const pessoa = await modelBuild.save({ transaction })
 
-			validPayload.value.enderecos.foreach(endereco => endereco.pessoaId = pessoa.id)
-			validPayload.value.telefones.foreach(telefone => telefone.pessoaId = pessoa.id)
+			validPayload.value.enderecos.map(endereco => endereco.pessoaId = pessoa.id)
+			validPayload.value.telefones.map(telefone => telefone.pessoaId = pessoa.id)
 
 			let inserts = [
 				enderecoModel.bulkCreate(validPayload.value.enderecos, transaction),
@@ -71,6 +71,8 @@ class PessoaService {
 			await transaction.commit()
 
 		} catch (error) {
+
+			console.log(error)
 			await transaction.rollback()
 		}
 	}

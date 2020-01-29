@@ -9,11 +9,10 @@ const enderecoSchema = {
     uf          : Joi.string().min(2).max(2).required()
 }
 
-
 const telefoneSchema = {
-    pessoaId    : Joi.number().integer().min(0).required(),
+    pessoaId    : Joi.number().integer().min(0),
     //tipo        : Joi.number().integer().valid([1,2]).required(),
-    numero      : Joi.number().integer().required()
+    telefone      : Joi.string().required()
 }
 
 const pessoaSchema = {    
