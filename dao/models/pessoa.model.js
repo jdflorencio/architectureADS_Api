@@ -30,9 +30,9 @@ Pessoa.init({
   },
   // infor pessoas
   data_nascimento: {
-    type: DataTypes.DATE
+    type: DataTypes.DATEONLY
   },
-  data_fundacao: DataTypes.DATE,
+  data_fundacao: DataTypes.DATEONLY,
   nacionalidade: {
     type: DataTypes.STRING,
     allowNull: true
