@@ -2,21 +2,21 @@ const Joi = require('@hapi/joi')
 
 const enderecoSchema = {
     //pessoaId    : Joi.number().integer().min(0).required(),
-    logradouro  : Joi.string().min(3).max(40).required(),
-    numero      : Joi.string().min(1).max(6).required(),
-    bairro      : Joi.string().min(1).max(60).required(),
-    cidade      : Joi.string().min(2).max(60).required(),
-    uf          : Joi.string().min(2).max(2).required()
+    complemento : Joi.string().min(3).max(40).allow(null),
+    numero      : Joi.string().min(1).max(6),
+    bairro      : Joi.string().min(1).max(60),
+    cidade      : Joi.string().min(2).max(60),
+    uf          : Joi.string().min(2).max(2)
 }
 
 const telefoneSchema = {
-    pessoaId    : Joi.number().integer().min(0),
+    // pessoaId    : Joi.number().integer().min(0),
     //tipo        : Joi.number().integer().valid([1,2]).required(),
-    telefone      : Joi.string().required()
+    telefone      : Joi.string()
 }
 
 const pessoaSchema = {    
-    id                  : Joi.number().integer().min(1),
+    //id                  : Joi.number().integer().min(1),
     nome                : Joi.string().min(3).max(60).required(),
     nascimento          : Joi.date().iso(),
     enderecos           : Joi.array().items(Joi.object().keys(enderecoSchema)).allow(null),
@@ -26,7 +26,7 @@ const pessoaSchema = {
     data_nascimento     : Joi.date().allow(null),
     email               : Joi.string().email().allow(null),
     estado_civil        : Joi.string().allow(null),
-    inscricao_estadual  : Joi.string(),
+    inscricao_estadual  : Joi.string().allow(null),
     nacionalidade       : Joi.string().allow(null),
     nome_fantasia       : Joi.string().allow(null),
     rg                  : Joi.string().allow(null),
@@ -40,25 +40,19 @@ class PessoaHelper {
     }
 
     isValidCreate(payload) {
-        delete this.schema.id;
-
+        delete this.schema.id
         const schema = Joi.object().keys(this.schema);
-        const result = schema.validate(payload, {allowUnknown : true});
-        if (result.error) {
-          this.resetJoiErrorMessage(result)
-        }
-
-        return result;  
+        const result = schema.validate(payload, {allowUnknown : true})
+        return this.resetJoiErrorMessage(result)          
     }
 
     isValidUpdate(payload) {
-        this.schema.id = Joi.number().integer().required();
-        const schema = Joi.object().keys(payload);        
-        const result = schema.validate(payload, {allowUnknown : true});
-        this.resetJoiErrorMessage(result)
 
-        
-        return result;  
+        this.schema.id = Joi.number().integer().required();
+
+        const schema = Joi.object().keys(this.schema);
+        const result = schema.validate(payload, {allowUnknown : true});
+        return this.resetJoiErrorMessage(result)           
     }
 
     resetJoiErrorMessage(joiResult) {
@@ -69,9 +63,11 @@ class PessoaHelper {
           joiResult.error.details.map(function(e) {
             erro.push(e.message);
           });
+          joiResult.error.msg = erro;
+          
         }
-        joiResult.error.msg = erro;
       }
+      return joiResult
     }
 }
 

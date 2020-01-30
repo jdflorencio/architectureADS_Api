@@ -1,44 +1,46 @@
 const pessoaService = require('./pessoa.service')
 class PessoaController {
 
-   async save(req, res) {
-		
+   async save(req, res) {		
 		try {
 			const result = await pessoaService.save(req.body);
-			res.json({sucesso: true, data: result})
+			res.json({sucesso: true, id: result.id, msg: 'Cliente Atualizado com sucesso!'})
+
 		} catch (error) {
-			res.status(409).json({sucesso: false, erro: error})
+			res.status(409).json({sucesso: false, error})
 		}
 	}
 
-  async update(req, res) {
-		console.log('Atualizando o cliente....')
-
-	}
-	
-  async findOne(req, res) {
-
+	async update(req, res) {		
 		try {
+		
+			const result = await pessoaService.save(req.body);
+			res.json({sucesso: true, id: result.id , msg: 'Cliente Atualizado com sucesso!'})
 
-			const { id } = req.params		
+		} catch (error) {
+			res.status(409).json({sucesso: false, error})
+		}
+	}
+
+  async findOne(req, res) {
+		try {
+			const { id } = req.params
 			const result = await pessoaService.findById(id);
-			res.json({sucesso: true, data: result})
+			res.json({sucesso: true, result})
 
     } catch (error) {
-			res.status(409).json({sucesso: false, erro: error.message})
+			res.status(409).json({sucesso: false, error})
 
 		}
 	}
 	
   async findAll(req, res) {
-
     try {
-
 			const result = await pessoaService.findAll();
-			res.json({sucesso: true, data: result})
+			res.json({sucesso: true, result})
 
     } catch (error) {
-			res.status(409).json({sucesso: false, erro: error.message})
+			res.status(409).json({sucesso: false,  error})
 
 		}
 	}
