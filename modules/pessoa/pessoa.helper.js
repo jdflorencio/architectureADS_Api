@@ -3,7 +3,7 @@ const Joi = require('@hapi/joi')
 const enderecoSchema = {
     //pessoaId    : Joi.number().integer().min(0).required(),
     complemento : Joi.string().min(3).max(40).allow(null),
-    numero      : Joi.string().min(1).max(6),
+    numero      : Joi.string().min(1).max(6).allow(null),
     bairro      : Joi.string().min(1).max(60),
     cidade      : Joi.string().min(2).max(60),
     uf          : Joi.string().min(2).max(2)

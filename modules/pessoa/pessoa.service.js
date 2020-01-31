@@ -71,13 +71,15 @@ class PessoaService {
 			return pessoa
 
 		} catch ( error ) {
+			
 			console.log(error)
 			await transaction.rollback()
-			return {status: 400, msg: "Cliente adicionado com Sucesso!"}
+			return {status: 400, msg: error }
 		}
 	}
 
 	async update(payload) {
+
 		try {
 			const transaction = await connection.transaction({ isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.READ_COMMITTED })
 			
@@ -89,22 +91,28 @@ class PessoaService {
 					error           : validPayload.error.msg
 			  });
 			}
-					
-			let pessoa;
-			pessoa = await pessoaModel.update(validPayload.value,{where: {id: payload.id}, returning: true },{ transaction })
+			
+			let consultarPessoa = await pessoaModel.findByPk(validPayload.value.id)
+			console.log("achou...",consultarPessoa)
+
+			let pessoa = await pessoaModel.upsert(validPayload.value, { transaction })
 			pessoa = payload
 			
-			validPayload.value.enderecos.map(endereco => endereco.pessoaId = pessoa.id)
-			validPayload.value.telefones.map(telefone => telefone.pessoaId = pessoa.id)
+			if ( Object.keys(validPayload.value.enderecos[0]).length > 0 ) {
+				validPayload.value.enderecos.map(endereco => endereco.pessoaId = pessoa.id)
+			}
 
+			if ( Object.keys(validPayload.value.telefones[0]).length > 0 ) {
+				validPayload.value.telefones.map(telefone => telefone.pessoaId = pessoa.id)
+			}
+			
 			await enderecoModel.destroy({where: {pessoaId: payload.id }}, {transaction})
 			await telefoneModel.destroy({where: {pessoaId: payload.id}}, {transaction})
+			
+			let inserts = []
 
-			let inserts = [
-				enderecoModel.bulkCreate(validPayload.value.enderecos, transaction),
-				telefoneModel.bulkCreate(validPayload.value.telefones, transaction),
-			]
-
+			inserts.push(  validPayload.value.enderecos != null ? enderecoModel.bulkCreate(validPayload.value.enderecos, transaction) : [{}] )
+			inserts.push(  validPayload.value.telefones != null ? telefoneModel.bulkCreate(validPayload.value.telefones, transaction) : [{}] )
 
 			Promise.all(inserts).then(() => {
 				return pessoa
@@ -115,9 +123,8 @@ class PessoaService {
 
 		} catch ( error ) {
 			console.log(error)
-
 			await transaction.rollback()
-			return {status: 400, msg: "Cliente atualizado com Sucesso!"}
+			return {status: 400, error}
 		}
 	}
 
