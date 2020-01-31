@@ -14,7 +14,7 @@ class PessoaController {
 	async update(req, res) {		
 		try {
 		
-			const result = await pessoaService.save(req.body);
+			const result = await pessoaService.update(req.body);
 			res.json({sucesso: true, id: result.id , msg: 'Cliente Atualizado com sucesso!'})
 
 		} catch (error) {
