@@ -67,13 +67,10 @@ class PessoaService {
 				return pessoa
 			})
 
-			await transaction.commit()
 			return pessoa
 
 		} catch ( error ) {
 			
-			console.log(error)
-			await transaction.rollback()
 			return {status: 400, msg: error }
 		}
 	}
@@ -81,8 +78,7 @@ class PessoaService {
 	async update(payload) {
 
 		try {
-			const transaction = await connection.transaction({ isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.READ_COMMITTED })
-			
+			const transaction = await connection.transaction({ isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.READ_COMMITTED })			
 			let validPayload = helper.isValidUpdate(payload)
 					
 			if (validPayload.error) {
@@ -92,38 +88,33 @@ class PessoaService {
 			  });
 			}
 			
-			let consultarPessoa = await pessoaModel.findByPk(validPayload.value.id)
-			console.log("achou...",consultarPessoa)
+			let pessoa = await pessoaModel.findByPk(validPayload.value.id)
 
-			let pessoa = await pessoaModel.upsert(validPayload.value, { transaction })
-			pessoa = payload
+			await pessoaModel.update(validPayload.value, {where: {id: pessoa.id}}, { transaction })	
 			
-			if ( Object.keys(validPayload.value.enderecos[0]).length > 0 ) {
+			if ( validPayload.value.enderecos ) {
 				validPayload.value.enderecos.map(endereco => endereco.pessoaId = pessoa.id)
 			}
 
-			if ( Object.keys(validPayload.value.telefones[0]).length > 0 ) {
+			if (validPayload.value.telefones) {
 				validPayload.value.telefones.map(telefone => telefone.pessoaId = pessoa.id)
-			}
+			}		
 			
-			await enderecoModel.destroy({where: {pessoaId: payload.id }}, {transaction})
-			await telefoneModel.destroy({where: {pessoaId: payload.id}}, {transaction})
+			await enderecoModel.destroy({where: {pessoaId: pessoa.id }}, {transaction})
+			await telefoneModel.destroy({where: {pessoaId: pessoa.id }}, {transaction})
 			
 			let inserts = []
 
-			inserts.push(  validPayload.value.enderecos != null ? enderecoModel.bulkCreate(validPayload.value.enderecos, transaction) : [{}] )
-			inserts.push(  validPayload.value.telefones != null ? telefoneModel.bulkCreate(validPayload.value.telefones, transaction) : [{}] )
+			inserts.push( payload.enderecos ? enderecoModel.bulkCreate(validPayload.value.enderecos, transaction) : null)
+			inserts.push( payload.telefones ?  telefoneModel.bulkCreate(validPayload.value.telefones, transaction) : null)
 
 			Promise.all(inserts).then(() => {
 				return pessoa
 			})
-
-			await transaction.commit()
+			
 			return pessoa
 
 		} catch ( error ) {
-			console.log(error)
-			await transaction.rollback()
 			return {status: 400, error}
 		}
 	}
