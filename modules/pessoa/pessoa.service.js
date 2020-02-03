@@ -66,11 +66,13 @@ class PessoaService {
 			Promise.all(inserts).then(() => {
 				return pessoa
 			})
+			transaction.commit()
 
 			return pessoa
 
 		} catch ( error ) {
 			
+			transaction.rollback()
 			return {status: 400, msg: error }
 		}
 	}
@@ -112,9 +114,11 @@ class PessoaService {
 				return pessoa
 			})
 			
+			transaction.commit()
 			return pessoa
 
 		} catch ( error ) {
+			transaction.rollback()
 			return {status: 400, error}
 		}
 	}
