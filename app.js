@@ -17,9 +17,6 @@ app.use(function(req, res, next) {
   next();
 });
 
-
-
-
 // parse application/json
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -42,4 +39,5 @@ app.use((error, req, res, next) => {
   })
 })
 
-server.listen(3333);
+module.exports = app;
+
