@@ -63,35 +63,41 @@ class PessoaService {
 				telefoneModel.bulkCreate(validPayload.value.telefones, transaction),
 			]
 
-			Promise.all(inserts).then(() => {
+			return Promise.all(inserts).then(() => {
+				transaction.commit()
 				return pessoa
 			})
-			transaction.commit()
 
-			return pessoa
-
-		} catch ( error ) {
-			
+		} catch ( error ) {			
 			transaction.rollback()
-			return {status: 400, msg: error }
+			throw error
 		}
 	}
 
 	async update(payload) {
 
-		try {
-			const transaction = await connection.transaction({ isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.READ_COMMITTED })			
-			let validPayload = helper.isValidUpdate(payload)
-					
-			if (validPayload.error) {
-				return Promise.reject({
-					message         : "Dados de entrada inválidos, verifique os campos obrigatorios",
-					error           : validPayload.error.msg
-			  });
-			}
-			
-			let pessoa = await pessoaModel.findByPk(validPayload.value.id)
+				
+		let validPayload = helper.isValidUpdate(payload)
+				
+		if (validPayload.error) {
+			return Promise.reject({
+				message         : "Dados de entrada inválidos, verifique os campos obrigatorios",
+				error           : validPayload.error.msg
+			});
+		}
+		
+		let pessoa = await pessoaModel.findByPk(validPayload.value.id)
 
+		if(!pessoa) {
+			return Promise.reject({
+				message: "Pessoa não encontrada.",
+				error: ["Pessoa não encontrada"]
+			})
+		}
+
+		const transaction = await connection.transaction({ isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.READ_COMMITTED })
+
+		try {
 			await pessoaModel.update(validPayload.value, {where: {id: pessoa.id}}, { transaction })	
 			
 			if ( validPayload.value.enderecos ) {

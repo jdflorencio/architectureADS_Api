@@ -7,10 +7,10 @@ class PessoaController {
    async save(req, res) {		
 		try {
 			const result = await this.service.save(req.body);
-			res.json({sucesso: true, id: result.id, msg: 'Cliente Atualizado com sucesso!'})
+			res.json({sucesso: true, data: result})
 
 		} catch (error) {
-			res.status(409).json({sucesso: false, error})
+			res.status(409).json({sucesso: false, mensagem: error.mensage, erro: error.error || []})
 		}
 	}
 
@@ -27,8 +27,8 @@ class PessoaController {
 
   async findOne(req, res) {
 		try {
-			const { id } = req.params
-			const result = await this.service.findById(id);
+			
+			const result = await this.service.findById(+req.params.id);
 			res.json({sucesso: true, result})
 
     } catch (error) {

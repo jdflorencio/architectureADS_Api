@@ -6,11 +6,9 @@ app.set('port', port)
 
 const server =  http.createServer(app)
 
-
 /**
  * Normalize a port into a number, string, or false.
  */
-
 function normalizePort(val) {
     const port = parseInt(val, 10);
     
@@ -52,7 +50,6 @@ function onError(error) {
 /**
  * Event listener for HTTP server "listening" event.
  */
-
 function onListening() {
     var addr = server.address();
     var bind = typeof addr === 'string'
