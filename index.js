@@ -4,15 +4,15 @@ const jwt = require('jsonwebtoken')
 const cors = require('cors')
 const app = express()
 const server = require('http').Server(app)
-const rotas = require('./rotas/rota')
+const rotaPessoa = require('./modules/pessoa/pessoa.router')
 
 /* CONFIG */
 app.use(cors())
 
 // parse application/json
 app.use(bodyParser.json())
-
-app.use('/api', rotas)
+  
+app.use('/api', rotaPessoa)
 
 // PARA ROTAS NÃO EXISTENTE
 app.use((req, res, next) => {

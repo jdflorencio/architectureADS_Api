@@ -5,7 +5,7 @@ const telefoneModel = require('../../dao/models/telefone.model')
 const helper = require('../pessoa/pessoa.helper')
 
 
-// const Promise = require('bluebird');
+const Promise = require('bluebird');
 
 class PessoaService {
 

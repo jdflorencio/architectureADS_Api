@@ -1,9 +1,12 @@
 const pessoaService = require('./pessoa.service')
 class PessoaController {
+	constructor() {
+		this.service = pessoaService
+	}
 
    async save(req, res) {		
 		try {
-			const result = await pessoaService.save(req.body);
+			const result = await this.service.save(req.body);
 			res.json({sucesso: true, id: result.id, msg: 'Cliente Atualizado com sucesso!'})
 
 		} catch (error) {
@@ -14,7 +17,7 @@ class PessoaController {
 	async update(req, res) {		
 		try {
 		
-			const result = await pessoaService.update(req.body);
+			const result = await this.service.update(req.body);
 			res.json({sucesso: true, id: result.id , msg: 'Cliente Atualizado com sucesso!'})
 
 		} catch (error) {
@@ -25,7 +28,7 @@ class PessoaController {
   async findOne(req, res) {
 		try {
 			const { id } = req.params
-			const result = await pessoaService.findById(id);
+			const result = await this.service.findById(id);
 			res.json({sucesso: true, result})
 
     } catch (error) {
@@ -36,7 +39,7 @@ class PessoaController {
 	
   async findAll(req, res) {
     try {
-			const result = await pessoaService.findAll();
+			const result = await this.service.findAll();
 			res.json({sucesso: true, result})
 
     } catch (error) {
@@ -48,7 +51,7 @@ class PessoaController {
 	async delete(req, res) {
 		try {
 			const { id } = req.params
-			 await pessoaService.deleting(id)
+			 await this.service.deleting(id)
 			res.status(200).json({sucesso: true, data: `Cliente codigo: ${id} removido Com sucesso!`})
 
 		} catch ( error ) {
