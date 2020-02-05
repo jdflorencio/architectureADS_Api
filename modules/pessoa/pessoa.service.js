@@ -39,12 +39,11 @@ class PessoaService {
 		})
 	}
 
-	async save(payload) {
-		try {
-			const transaction = await connection.transaction({ isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.READ_COMMITTED })
+async save(payload) {
+		const transaction = await connection.transaction({ isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.READ_COMMITTED })
 
-			let validPayload = helper.isValidCreate(payload)
-			
+		try {
+			let validPayload = helper.isValidCreate(payload)			
 			if (validPayload.error) {
 				return Promise.reject({
 					message         : "Dados de entrada inválidos, verifique os campos obrigatorios",
@@ -59,16 +58,22 @@ class PessoaService {
 			validPayload.value.telefones.map(telefone => telefone.pessoaId = pessoa.id)
 
 			let inserts = [
-				enderecoModel.bulkCreate(validPayload.value.enderecos, transaction),
-				telefoneModel.bulkCreate(validPayload.value.telefones, transaction),
+				enderecoModel.bulkCreate(validPayload.value.enderecos, {transaction}),
+				telefoneModel.bulkCreate(validPayload.value.telefones, {transaction}),
 			]
 
 			return Promise.all(inserts).then(() => {
-				transaction.commit()
-				return pessoa
+					transaction.commit()
+					return pessoa
+			}).catch(error => {
+				transaction.rollback();
+                throw error;
 			})
 
-		} catch ( error ) {			
+
+
+		} catch ( error ) {		
+			console.log(errors)	
 			transaction.rollback()
 			throw error
 		}
@@ -113,8 +118,8 @@ class PessoaService {
 			
 			let inserts = []
 
-			inserts.push( payload.enderecos ? enderecoModel.bulkCreate(validPayload.value.enderecos, transaction) : null)
-			inserts.push( payload.telefones ?  telefoneModel.bulkCreate(validPayload.value.telefones, transaction) : null)
+			inserts.push( payload.enderecos ? enderecoModel.bulkCreate(validPayload.value.enderecos, {transaction}) : null)
+			inserts.push( payload.telefones ?  telefoneModel.bulkCreate(validPayload.value.telefones, {transaction}) : null)
 
 			Promise.all(inserts).then(() => {
 				return pessoa

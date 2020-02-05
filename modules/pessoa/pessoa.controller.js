@@ -14,7 +14,7 @@ class PessoaController {
 		}
 	}
 
-	async update(req, res) {		
+	async update(req, res) {
 		try {
 		
 			const result = await this.service.update(req.body);
