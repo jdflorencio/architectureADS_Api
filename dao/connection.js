@@ -1,21 +1,39 @@
 'use strict';
 
 const {Sequelize, DataTypes} = require('sequelize')
+require('dotenv').config();
 
-const config = {
+DataTypes.DATE.prototype._stringfy = function _stringfy(date, options) {
+  date = this.applyTimezone(date, options)
+  return date.format('YYYY-MM-DD HH:mm:ss.SS')
+}
 
-    "username": "root",
-    "password": "123",
-    "database": "simpleERP",
-    "host": "172.24.0.2",
-    "dialect": "mysql",
-    "timezone": "-03:00"
- }
+const database = {
+  dev: {
+    connection: new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
+      host: process.env.DB_HOSTNAME,
+      dialect: process.env.DB_DIALECT,
+      port: process.env.DB_PORT,
+      logging: false,
+      dialectOptions: {
+        options: {
+          encrypt: false,
+          useUTC: false,
+        }
+      }
+    })
+  },
+  test: {
 
-let connection = new Sequelize(config.database, config.username, config.password, config)
+  },
+  production: {
+
+  }
+}
+
+const ambiente = database[process.env.ENVIROMENT]
 
 module.exports = {
-  connection,
-  DataTypes,
+  connection: ambiente.connection,
   Sequelize
 }

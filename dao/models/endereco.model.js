@@ -1,37 +1,37 @@
 'use strict';
 
-const {Sequelize, DataTypes ,connection} = require('../connection')
+const {Sequelize ,connection} = require('../connection')
 const Model = Sequelize.Model
 
 class PessoaEndereco extends Model {}
 PessoaEndereco.init({  
   id: {
-    type: DataTypes.INTEGER,
+    type: Sequelize.INTEGER,
     primaryKey: true,
     autoIncrement: true
   },
   endereco : {
-    type: DataTypes.STRING,
+    type: Sequelize.STRING,
     allowNull: true
   },
   bairro : {
-    type: DataTypes.STRING,
+    type: Sequelize.STRING,
     allowNull: true
   },
   numero : {
-    type: DataTypes.STRING,
+    type: Sequelize.STRING,
     allowNull: true,
   },
   complemento: {
-    type: DataTypes.STRING,
+    type: Sequelize.STRING,
     allowNull: true,
   },
   cidade: {
-    type: DataTypes.STRING,
+    type: Sequelize.STRING,
     allowNull: true
   },
   uf: {
-    type: DataTypes.STRING,
+    type: Sequelize.STRING,
     allowNull: true
   }
 }, {

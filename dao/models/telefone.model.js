@@ -1,19 +1,19 @@
-const {Sequelize, DataTypes ,connection} = require('../connection')
+const {Sequelize ,connection} = require('../connection')
 const Model = Sequelize.Model
 
 class PessoaTelefone extends Model {}
 PessoaTelefone.init({
   id: {
-    type: DataTypes.INTEGER,
+    type: Sequelize.INTEGER,
     primaryKey: true,
     autoIncrement: true
   },    
   telefone : {
-    type: DataTypes.STRING,
+    type: Sequelize.STRING,
     allowNull: true,
   },
   tipo : {
-    type: DataTypes.STRING,
+    type: Sequelize.STRING,
     allowNull: true,
   }
 }, {
