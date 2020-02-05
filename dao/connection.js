@@ -15,12 +15,7 @@ const database = {
       dialect: process.env.DB_DIALECT,
       port: process.env.DB_PORT,
       logging: false,
-      dialectOptions: {
-        options: {
-          encrypt: false,
-          useUTC: false,
-        }
-      }
+   
     })
   },
   test: {
@@ -30,6 +25,8 @@ const database = {
 
   }
 }
+
+
 
 const ambiente = database[process.env.ENVIROMENT]
 

@@ -17,7 +17,7 @@ class PessoaService {
         'nome_fantasia',
         'createdAt',
         'updatedAt'
-			]})
+		]})
 	}
 
 	async findById(pessoaId) {
