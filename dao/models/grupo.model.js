@@ -41,7 +41,7 @@ Grupo.hasMany(subgrupo, {
 });
 
 Grupo.hasMany(produto, {
-    foreignKey: 'pessoaId',
+    foreignKey: 'grupoId',
     onDelete: 'RESTRICT',
     onUpdate: 'NO ACTION'
 });

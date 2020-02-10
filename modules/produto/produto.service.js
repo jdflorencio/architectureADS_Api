@@ -15,7 +15,7 @@ class ProdutoService {
 	}
 	
 
-async save(payload) {
+	async save(payload) {
 		const transaction = await connection.transaction({ isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.READ_COMMITTED })
 
 		try {
@@ -28,12 +28,12 @@ async save(payload) {
 			}
 					
 			const modelBuild = produtoModel.build(validPayload.value)
-			let produto = await modelBuild.save({ transaction })
+			await modelBuild.save({ transaction })
 
-		transaction.commit()
+			transaction.commit()
 
 		} catch ( error ) {		
-			console.log(errors)	
+			console.log(error)	
 			transaction.rollback()
 			throw error
 		}

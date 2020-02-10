@@ -22,7 +22,7 @@ Produto.init({
 	estoque_atual: {
         type: Sequelize.DECIMAL,
     },
-    estoque_minino: {
+    estoque_minimo: {
         type: Sequelize.DECIMAL,
     },	 
 	estoque_maximo: {
@@ -48,7 +48,8 @@ Produto.init({
         type: Sequelize.DATE
     },
 	log_atualizacao: {
-        type: Sequelize.DATE    },
+        type: Sequelize.DATE
+    },
 	log_pct_usuario:{
         type: Sequelize.INTEGER
     }
@@ -56,16 +57,13 @@ Produto.init({
     sequelize: connection,
     modelName: 'produto',
     tableName: 'produto',
-    freezeTable: true,
-    timestamp: false,
+    freezeTableName : true,
+    timestamps : false,
     name: {
         singular: 'produto',
         plural: 'produtos'
     },
     underscored: false
 });
-
-
-
 
 module.exports = Produto
