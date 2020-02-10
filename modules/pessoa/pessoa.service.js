@@ -38,6 +38,7 @@ class PessoaService {
 			],
 		})
 	}
+	
 
 async save(payload) {
 		const transaction = await connection.transaction({ isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.READ_COMMITTED })
