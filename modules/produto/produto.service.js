@@ -1,5 +1,7 @@
 const {Sequelize ,connection} = require('../../dao/connection')
 const produtoModel = require('../../dao/models/produto.model')
+const grupoModel = require('../../dao/models/grupo.model')
+const subgrupoModel = require('../../dao/models/subgrupo.model')
 const helper = require('../produto/produto.helper')
 
 const Promise = require('bluebird');
@@ -11,7 +13,30 @@ class ProdutoService {
 	}
 
 	async findById(produtoId) {
-		return await produtoModel.findByPk(produtoId)
+		try {
+
+			console.log(produtoId)
+			const produto = await produtoModel.findByPk(produtoId)		
+
+			const grupo =  await grupoModel.findByPk(produto.grupoId, {
+				attributes: {
+					exclude: ["log_criacao","log_atualizacao",  "log_pct_usuario"]
+				}}) || null
+
+			const subgrupo = await subgrupoModel.findByPk(produto.subgrupoId,  {
+				attributes: {
+					exclude: ["log_criacao","log_atualizacao",  "log_pct_usuario"]
+				}
+			}) 
+	
+			return {
+				produto, grupo, subgrupo
+			}
+
+		} catch (error) {	
+			console.log(error)
+			throw error
+		}
 	}
 	
 
