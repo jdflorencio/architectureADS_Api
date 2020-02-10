@@ -15,22 +15,22 @@ class GrupoService {
 	}
 	
 
-async save(payload) {
+	async save(payload) {
 		const transaction = await connection.transaction({ isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.READ_COMMITTED })
 
 		try {
 			let validPayload = helper.isValidCreate(payload)			
 			if (validPayload.error) {
 				return Promise.reject({
-					message         : "Dados de entrada inválidos, verifique os campos obrigatorios",
+					message         : "Dados de entrada inválidos, verifique os campos obrigatorios",	
 					error           : validPayload.error.msg
 				});
 			}
 					
-			const modelBuild = grupoModel.build(validPayload.value)
-			let grupo = await modelBuild.save({ transaction })
+			const modelBuild = grupoModel.build(validPayload.value)				
+			await modelBuild.save({ transaction })
 
-		transaction.commit()
+			transaction.commit()
 
 		} catch ( error ) {		
 			console.log(errors)	

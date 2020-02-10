@@ -16,7 +16,7 @@ class GrupoController {
 
 	async update(req, res) {
 		try {
-		
+			
 			const result = await this.service.update(req.body);
 			res.json({sucesso: true, id: result.id , msg: 'Grupo Atualizado com sucesso!'})
 
@@ -39,6 +39,7 @@ class GrupoController {
 	
   async findAll(req, res) {
     try {
+			console.log('aqui');
 			const result = await this.service.findAll();
 			res.json({sucesso: true, result})
 

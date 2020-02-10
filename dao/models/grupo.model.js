@@ -1,5 +1,7 @@
 const {Sequelize ,connection} = require('../connection')
 const Model = Sequelize.Model
+const produto = require('./produto.model')
+const subgrupo = require('./produto.model')
 
 class Grupo extends Model{}
 Grupo.init({
@@ -43,3 +45,5 @@ Grupo.hasMany(produto, {
     onDelete: 'RESTRICT',
     onUpdate: 'NO ACTION'
 });
+
+module.exports = Grupo
