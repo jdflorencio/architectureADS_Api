@@ -2,8 +2,7 @@ const {Sequelize ,connection} = require('../connection')
 const Model = Sequelize.Model
 
 class Produto extends Model{}
-
-PermissionStatus.init({
+Produto.init({
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -64,6 +63,9 @@ PermissionStatus.init({
         plural: 'produtos'
     },
     underscored: false
-})
+});
+
+
+
 
 module.exports = Produto
