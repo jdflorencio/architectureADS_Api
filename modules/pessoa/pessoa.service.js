@@ -10,7 +10,7 @@ const Promise = require('bluebird');
 class PessoaService {
 
 	async findAll() {
-			return await pessoaModel.findAll({attributes: [
+		return await pessoaModel.findAll({attributes: [
         'id',
         'tipo',
         'nome',
@@ -69,9 +69,6 @@ async save(payload) {
 				transaction.rollback();
                 throw error;
 			})
-
-
-
 		} catch ( error ) {		
 			console.log(errors)	
 			transaction.rollback()
@@ -121,12 +118,13 @@ async save(payload) {
 			inserts.push( payload.enderecos ? enderecoModel.bulkCreate(validPayload.value.enderecos, {transaction}) : null)
 			inserts.push( payload.telefones ?  telefoneModel.bulkCreate(validPayload.value.telefones, {transaction}) : null)
 
-			Promise.all(inserts).then(() => {
+			return Promise.all(inserts).then(() => {
+				transaction.commit()
 				return pessoa
+			}).catch( error => {
+				transaction.rollback()
+				throw error
 			})
-			
-			transaction.commit()
-			return pessoa
 
 		} catch ( error ) {
 			transaction.rollback()

@@ -14,7 +14,7 @@ const database = {
       host: process.env.DB_HOSTNAME,
       dialect: process.env.DB_DIALECT,
       port: process.env.DB_PORT,
-      logging: false,
+      logging: console.log,
    
     })
   },
