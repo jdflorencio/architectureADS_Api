@@ -28,12 +28,12 @@ async save(payload) {
 			}
 					
 			const modelBuild = subgrupoModel.build(validPayload.value)
-			let subgrupo = await modelBuild.save({ transaction })
+			await modelBuild.save({ transaction })
 
-		transaction.commit()
+			transaction.commit()
 
 		} catch ( error ) {		
-			console.log(errors)	
+			console.log(error)	
 			transaction.rollback()
 			throw error
 		}

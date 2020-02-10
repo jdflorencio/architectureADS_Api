@@ -2,12 +2,15 @@ const {Sequelize ,connection} = require('../connection')
 const Model = Sequelize.Model
 const produto = require('./produto.model')
 
-class Grupo extends Model{}
-Grupo.init({
+class Subgrupo extends Model{}
+Subgrupo.init({
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true, 
         autoIncrement: true
+    },
+    grupoId: {
+        type: Sequelize.INTEGER
     },
     descricao: Sequelize.STRING,
     log_criacao: {
@@ -33,8 +36,11 @@ Grupo.init({
     underscored : false
 });
 
-Grupo.hasMany(produto, {
-    foreignKey: 'pessoaId',
+Subgrupo.hasMany(produto, {
+    foreignKey: 'subgrupoId',
     onDelete: 'RESTRICT',
     onUpdate: 'NO ACTION'
 });
+
+
+module.exports = Subgrupo
