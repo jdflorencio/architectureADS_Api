@@ -27,7 +27,7 @@ class ProdutoService {
 				attributes: {
 					exclude: ["log_criacao","log_atualizacao",  "log_pct_usuario"]
 				}
-			}) 
+			}) || null 
 	
 			return {
 				produto, grupo, subgrupo
