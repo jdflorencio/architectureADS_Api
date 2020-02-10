@@ -26,8 +26,6 @@ const database = {
   }
 }
 
-
-
 const ambiente = database[process.env.ENVIROMENT]
 
 module.exports = {

@@ -1,23 +1,29 @@
 const Joi = require('@hapi/joi')
 
 
-const produtoSchema = {   
-  
-    //id                  : Joi.number().integer().min(1),
-    nome                : Joi.string().min(3).max(60).required(),
-    nascimento          : Joi.date().iso(),
-    cpf_cnpj            : Joi.string().min(14).max(60).required(),
-    data_fundacao       : Joi.date().allow(null),
-    data_nascimento     : Joi.date().allow(null),
-    email               : Joi.string().email().allow(null),
-    estado_civil        : Joi.string().allow(null),
-    inscricao_estadual  : Joi.string().allow(null),
-    nacionalidade       : Joi.string().allow(null),
-    nome_fantasia       : Joi.string().allow(null),
-    rg                  : Joi.string().allow(null),
-    sexo                : Joi.string().allow(null),
-    tipo                : Joi.string().min(2).max(2).required()
+const produtoSchema = {
+
+	id              : Joi.number().integer().min(1),
+	referencia      : Joi.number().integer().min(1),
+	grupoId         : Joi.number().integer().min(1),
+	subgrupoId      : Joi.number().integer().min(1),
+	tributacaoId    : Joi.number().integer().min(1),
+	refencia        : Joi.string().min(1).max(30),
+	descricao       : Joi.string().min(1).max(60),
+	codigo_ean      : Joi.string().min(1).max(13),
+	estoque_atual   : Joi.number(),
+	estoque_minimo  : Joi.number(), 
+	estoque_maximo  : Joi.number(),
+	vl_custo        : Joi.number(),
+	vl_venda        : Joi.number(),
+	ncm             : Joi.string().min(1).max(10),
+	status          : Joi. ENUM('ATIVO', 'INATIVO'),
+	fabricante      : Joi.string().min(1).max(60),
+	log_criacao     : Joi.date().iso(),
+	log_atualizacao : Joi.date().iso(),
+	log_pct_usuario : Joi.number().integer().min(1),
 }
+
 class ProdutoHelper {
 
     constructor() {

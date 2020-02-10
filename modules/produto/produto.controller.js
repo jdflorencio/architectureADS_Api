@@ -18,7 +18,7 @@ class ProdutoController {
 		try {
 		
 			const result = await this.service.update(req.body);
-			res.json({sucesso: true, id: result.id , msg: 'Cliente Atualizado com sucesso!'})
+			res.json({sucesso: true, id: result.id , msg: 'Produto Atualizado com sucesso!'})
 
 		} catch (error) {
 			res.status(409).json({sucesso: false, error})
@@ -52,7 +52,7 @@ class ProdutoController {
 		try {
 			const { id } = req.params
 			 await this.service.deleting(id)
-			res.status(200).json({sucesso: true, data: `Cliente codigo: ${id} removido Com sucesso!`})
+			res.status(200).json({sucesso: true, data: `Produto codigo: ${id} removido Com sucesso!`})
 
 		} catch ( error ) {
 			res.status(409).json({sucesso: false, erro: error})
