@@ -5,7 +5,9 @@ const jwt = require('jsonwebtoken')
 const app = express()
 const server = require('http').Server(app)
 const rotaPessoa = require('./modules/pessoa/pessoa.router')
-
+const rotaGrupo = require('./modules/grupo/grupo.router')
+const rotaSubgrupo = require('./modules/subgrupo/subgrupo.router')
+const rotaProduto = require('./modules/produto/produto.router') 
 /* CONFIG */
 //app.use(cors())
 
@@ -22,6 +24,9 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
   
 app.use('/api', rotaPessoa)
+app.use('/api', rotaGrupo)
+app.use('/api', rotaSubgrupo)
+app.use('/api', rotaProduto)
 
 // PARA ROTAS NÃO EXISTENTE
 app.use((req, res, next) => {

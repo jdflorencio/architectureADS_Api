@@ -1,5 +1,6 @@
 const {Sequelize ,connection} = require('../connection')
 const Model = Sequelize.Model
+const produto = require('./produto.model')
 
 class Grupo extends Model{}
 Grupo.init({
