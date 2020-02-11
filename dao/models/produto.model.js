@@ -1,4 +1,5 @@
 const {Sequelize ,connection} = require('../connection')
+const NotaItens = require('./nota.model')
 const Model = Sequelize.Model
 
 class Produto extends Model{}
@@ -64,6 +65,12 @@ Produto.init({
         plural: 'produtos'
     },
     underscored: false
+});
+
+Produto.hasMany(NotaItens, {
+    foreignKey: 'produtoId',
+    onDelete: 'CASCADE',
+    onUpdate: 'NO ACTION'
 });
 
 module.exports = Produto
