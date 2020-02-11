@@ -1,11 +1,47 @@
 const Joi = require('@hapi/joi')
 
+const nota_itens = {
+    //id              : Joi.string(),
+    notaId          : Joi.number().integer().min(0),
+    produtoId       : Joi.number().integer().min(0),
+    cfop            : Joi.string().min(4).max(4),
+    cst             : Joi.string().min(3).max(4),
+    quantidade      : Joi.decimal(),
+    valor           : Joi.decimal(),
+    desconto        : Joi.decimal(),
+    acrescimo       : Joi.decimal(),
+    subtotal        : Joi.decimal(),
+    total           : Joi.decimal(),
+    aliq_icms       : Joi.decimal(),
+    base_icms       : Joi.decimal(),
+    valor_icms      : Joi.decimal(),
+    aliq_subst      : Joi.decimal(),
+    base_subst      : Joi.decimal(),
+    aliq_ipi        : Joi.decimal(),
+    base_ipi        : Joi.decimal(),
+}
 
 const notaFiscalSchema = {
-
-	id           : Joi.number().integer().min(1),	
-	grupoId      : Joi.number().integer().min(1).required(),
-	descricao    : Joi.string().min(1).max(60).required(),
+    //id              : Joi.string(), 
+    pessoaId        : Joi.number().integer().min(0), 
+    numero          : Joi.number().integer().min(1), 
+    chave_nfe       : Joi.string().min(44).max(44), 
+    data_emissao    : Joi.date().iso(), 
+    data_entrada    : Joi.date().iso(),
+    valor_desconto  : Joi.decimal(), 
+    valor_acrecismo : Joi.decimal(), 
+    subtotal        : Joi.decimal(), 
+    total           : Joi.decimal(),  
+    tipo            : Joi.decimal(), 
+    base_icms       : Joi.decimal(), 
+    valor_icms      : Joi.decimal(), 
+    base_subst      : Joi.decimal(), 
+    base_ipi        : Joi.decimal(), 
+    valor_ipi       : Joi.decimal(), 
+    valor_frete     : Joi.decimal(), 
+    valor_outros    : Joi.decimal(), 
+    valor_seguro    : Joi.decimal(),
+    nota_itens      : Joi.array().items(Joi.object().keys(nota_itens).allow(null)),
 }
 
 class NotaFiscalHelper {
