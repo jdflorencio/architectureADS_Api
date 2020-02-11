@@ -32,7 +32,7 @@ app.use('/api', rotaTributacao)
 
 // PARA ROTAS NÃO EXISTENTE
 app.use((req, res, next) => {
-  const erro = new Error('Não encontrado')  
+  const erro = new Error('Rota não encontrada')  
   erro.status = 404
   next(erro)
 })
