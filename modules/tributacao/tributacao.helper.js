@@ -1,14 +1,29 @@
 const Joi = require('@hapi/joi')
 
-
 const tributacaoSchema = {
 
-	id           : Joi.number().integer().min(1),	
-	grupoId      : Joi.number().integer().min(1).required(),
-	descricao    : Joi.string().min(1).max(60).required(),
+  id                              : Joi.number(),
+  descricao                       : Joi.string().min(1).max(60).required(),
+  aliq_icms_venda_dentro_estado   : Joi.number(),
+  aliq_icms_venda_fora_estado     : Joi.number(),
+  aliq_icms_reducao_venda         : Joi.number(),
+  cst_base_venda                  : Joi.string().min(3).max(4),
+  cst_pis_venda                   : Joi.string().min(3).max(4),
+  aliq_pis_venda                  : Joi.number(),
+  cst_cofins_venda                : Joi.string().min(3).max(4),
+  aliq_cofins_venda               : Joi.number(),
+  aliq_icms_compra_dentro_estado  : Joi.number(),
+  aliq_icms_compra_fora_estado    : Joi.number(),
+  aliq_icms_reducao_compra        : Joi.number(),
+  cst_base_compra                 : Joi.string().min(3).max(4),
+  cst_pis_compra                  : Joi.string().min(3).max(4),
+  aliq_pis_compra                 : Joi.number(),
+  cst_cofins_compra               : Joi.string().min(3).max(4),
+  aliq_cofins_compra              : Joi.number(),
+  mva                             : Joi.number(),
 }
 
-class SubGrupoHelper {
+class TributacaoHelper {
 
     constructor() {
       this.schema = tributacaoSchema;
@@ -44,5 +59,5 @@ class SubGrupoHelper {
     }
 }
 
-let tributacaoHelper = new SubGrupoHelper();
+let tributacaoHelper = new TributacaoHelper();
 module.exports   = tributacaoHelper;

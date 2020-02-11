@@ -4,7 +4,7 @@ const helper = require('./tributacao.helper')
 
 const Promise = require('bluebird');
 
-class SubGrupoService {
+class TributacaoService {
 
 	async findAll() {
 		return await tributacaoModel.findAll()
@@ -40,7 +40,6 @@ async save(payload) {
 	}
 
 	async update(payload) {
-
 				
 		let validPayload = helper.isValidUpdate(payload)
 				
@@ -55,8 +54,8 @@ async save(payload) {
 
 		if(!tributacao) {
 			return Promise.reject({
-				message: "SubGrupo não encontrada.",
-				error: ["SubGrupo não encontrada"]
+				message: "Tributacao não encontrada.",
+				error: ["Tributacao não encontrada"]
 			})
 		}
 
@@ -78,6 +77,6 @@ async save(payload) {
 	}
 }
 
-let tributacao = new SubGrupoService();
+let tributacao = new TributacaoService();
 
 module.exports = tributacao;

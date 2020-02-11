@@ -1,4 +1,4 @@
-import { Sequelize } from "sequelize/types"
+const {Sequelize ,connection} = require('../connection')
 const Model = Sequelize.Model
 
 class Tributacao extends Model {}

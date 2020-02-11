@@ -1,5 +1,5 @@
 const tributacaoService = require('./tributacao.service')
-class SubGrupoController {
+class TributacaoController {
 	constructor() {
 		this.service = tributacaoService
 	}
@@ -18,7 +18,7 @@ class SubGrupoController {
 		try {
 		
 			const result = await this.service.update(req.body);
-			res.json({sucesso: true, id: result.id , msg: 'SubGrupo Atualizado com sucesso!'})
+			res.json({sucesso: true, id: result.id , msg: 'Tributacao Atualizado com sucesso!'})
 
 		} catch (error) {
 			res.status(409).json({sucesso: false, error})
@@ -52,7 +52,7 @@ class SubGrupoController {
 		try {
 			const { id } = req.params
 			 await this.service.deleting(id)
-			res.status(200).json({sucesso: true, data: `SubGrupo codigo: ${id} removido Com sucesso!`})
+			res.status(200).json({sucesso: true, data: `Tributacao codigo: ${id} removido Com sucesso!`})
 
 		} catch ( error ) {
 			res.status(409).json({sucesso: false, erro: error})
@@ -60,5 +60,5 @@ class SubGrupoController {
 	}
 }
 
-let tributacao = new SubGrupoController();
+let tributacao = new TributacaoController();
 module.exports = tributacao;
