@@ -1,5 +1,5 @@
 const {Sequelize ,connection} = require('../connection')
-const NotaItens = require('./nota.model')
+const NotaItens = require('./nota_itens.model')
 const Model = Sequelize.Model
 
 class Produto extends Model{}

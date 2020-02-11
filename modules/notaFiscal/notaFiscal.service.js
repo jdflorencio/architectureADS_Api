@@ -1,5 +1,6 @@
 const {Sequelize ,connection} = require('../../dao/connection')
-const notaFiscalModel = require('../../dao/models/notaFiscal.model')
+const notaFiscalModel = require('../../dao/models/nota.model')
+const itensFiscalModel = require('../../dao/models/nota_itens.model')
 const helper = require('./notaFiscal.helper')
 
 const Promise = require('bluebird');
@@ -28,9 +29,24 @@ async save(payload) {
 			}
 					
 			const modelBuild = notaFiscalModel.build(validPayload.value)
-			await modelBuild.save({ transaction })
+			const cabecalhoNota = await modelBuild.save({ transaction })
 
-			transaction.commit()
+			validPayload.value.nota_itens.map( item => item.notaId = cabecalhoNota.id)
+
+			let inserts = [
+				itensFiscalModel.bulkCreate(validPayload.value.nota_itens, {transaction})
+			]
+
+			return Promise.all(inserts)
+			.then(() => {
+				transaction.commit()
+				return cabecalhoNota
+			})
+			.catch( error => {
+				console.log(error)
+				transaction.rollback()
+				throw error
+			})
 
 		} catch ( error ) {		
 			console.log(error)	

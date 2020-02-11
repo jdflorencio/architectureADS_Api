@@ -8,7 +8,9 @@ const rotaPessoa = require('./modules/pessoa/pessoa.router')
 const rotaGrupo = require('./modules/grupo/grupo.router')
 const rotaSubgrupo = require('./modules/subgrupo/subgrupo.router')
 const rotaProduto = require('./modules/produto/produto.router') 
-const rotaTributacao = require('./modules/tributacao/tributacao.router') 
+const rotaTributacao = require('./modules/tributacao/tributacao.router')
+const rotaNotafiscal = require('./modules/notaFiscal/notaFiscal.router')
+
 /* CONFIG */
 //app.use(cors())
 
@@ -29,6 +31,7 @@ app.use('/api', rotaGrupo)
 app.use('/api', rotaSubgrupo)
 app.use('/api', rotaProduto)
 app.use('/api', rotaTributacao)
+app.use('/api', rotaNotafiscal)
 
 // PARA ROTAS NÃO EXISTENTE
 app.use((req, res, next) => {
