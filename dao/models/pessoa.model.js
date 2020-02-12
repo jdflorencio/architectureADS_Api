@@ -1,3 +1,4 @@
+
 'use strict';
 
 const {Sequelize ,connection} = require('../connection')
@@ -64,21 +65,22 @@ Pessoa.init({
 		underscored : false
     });
 
-    Pessoa.hasMany(Endereco, {
-        foreignKey: 'pessoaId',
-        onDelete: 'CASCADE',
-        onUpdate: 'NO ACTION'
-    });
-    
-    Pessoa.hasMany(Telefone, {
-        foreignKey: 'pessoaId',
-        onDelete: 'CASCADE',
-        onUpdate: 'NO ACTION'
-    });
-
-    Pessoa.hasMany(Nota, {
+  Pessoa.hasMany(Endereco, {
       foreignKey: 'pessoaId',
-      onDelete: 'RESTRICT',
+      onDelete: 'CASCADE',
       onUpdate: 'NO ACTION'
   });
+
+  Pessoa.hasMany(Telefone, {
+      foreignKey: 'pessoaId',
+      onDelete: 'CASCADE',
+      onUpdate: 'NO ACTION'
+  });
+
+  Nota.hasOne(Pessoa, {
+    foreignKey: "id",
+    onDelete: 'NO ACTION',
+    onUpdate: 'NO ACTION'
+  })
+
 module.exports = Pessoa;    

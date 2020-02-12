@@ -1,6 +1,7 @@
 const {Sequelize ,connection} = require('../../dao/connection')
 const notaFiscalModel = require('../../dao/models/nota.model')
 const itensFiscalModel = require('../../dao/models/nota_itens.model')
+const pessoaModel = require('../../dao/models/pessoa.model')
 const helper = require('./notaFiscal.helper')
 
 const Promise = require('bluebird');
@@ -8,7 +9,17 @@ const Promise = require('bluebird');
 class NotaFiscalService {
 
 	async findAll() {
-		return await notaFiscalModel.findAll()
+		
+		return await notaFiscalModel.findAll({
+			include:[
+				{
+					model: pessoaModel,
+					attributes: {
+						exclude: ['sexo', 'data_nascimento', 'data_fundacao', 'nacionalidade', 'estado_civil', 'rg', 'createdAt', 'updatedAt' ]
+					}
+				}
+			]
+		})
 	}
 
 	async findById(notaFiscalId) {
@@ -16,7 +27,7 @@ class NotaFiscalService {
 	}
 	
 
-async save(payload) {
+	async save(payload) {
 		const transaction = await connection.transaction({ isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.READ_COMMITTED })
 
 		try {
@@ -95,5 +106,4 @@ async save(payload) {
 }
 
 let notaFiscal = new NotaFiscalService();
-
 module.exports = notaFiscal;

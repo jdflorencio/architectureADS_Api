@@ -25,24 +25,24 @@ class NotaFiscalController {
 		}
 	}
 
-  async findOne(req, res) {
+  	async findOne(req, res) {
 		try {
 			
 			const result = await this.service.findById(+req.params.id);
 			res.json({sucesso: true, result})
 
-    } catch (error) {
+    	} catch (error) {
 			res.status(409).json({sucesso: false, error})
 
 		}
 	}
 	
-  async findAll(req, res) {
-    try {
+  	async findAll(req, res) {
+    	try {
 			const result = await this.service.findAll();
 			res.json({sucesso: true, result})
 
-    } catch (error) {
+    	} catch (error) {
 			res.status(409).json({sucesso: false,  error})
 
 		}
