@@ -73,7 +73,6 @@ class NotaFiscalHelper {
             erro.push(e.message);
           });
           joiResult.error.msg = erro;
-          
         }
       }
       return joiResult
