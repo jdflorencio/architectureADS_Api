@@ -18,12 +18,21 @@ class NotaFiscalService {
 						exclude: ['sexo', 'data_nascimento', 'data_fundacao', 'nacionalidade', 'estado_civil', 'rg', 'createdAt', 'updatedAt' ]
 					}
 				}
-			]
-		})
+			],
+			attributes: ['numero', 'chave_nfe', 'data_emissao', 'tipo', 'total']
+		} )
 	}
 
 	async findById(notaFiscalId) {
-		return await notaFiscalModel.findByPk(notaFiscalId)
+		return await notaFiscalModel.findByPk(notaFiscalId, {
+			include: [
+				{
+					model: pessoaModel,
+					attributes: ['id','tipo', 'nome', 'nome_fantasia','cpf_cnpj' ]					
+				}
+			],
+			attributes: ['numero', 'chave_nfe', 'data_emissao', 'tipo', 'total']
+		})
 	}
 	
 
