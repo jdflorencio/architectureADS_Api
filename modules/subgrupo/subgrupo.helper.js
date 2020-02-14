@@ -2,8 +2,6 @@ const Joi = require('@hapi/joi')
 
 
 const subgrupoSchema = {
-
-	id           : Joi.number().integer().min(1),	
 	grupoId      : Joi.number().integer().min(1).required(),
 	descricao    : Joi.string().min(1).max(60).required(),
 }
