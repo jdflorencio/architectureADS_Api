@@ -64,8 +64,9 @@ class GrupoService {
 
 		try {
 			await grupoModel.update(validPayload.value, {where: {id: grupo.id}}, { transaction })
-
 			transaction.commit()
+			
+			return grupo
 
 		} catch ( error ) {
 			transaction.rollback()

@@ -53,9 +53,10 @@ class ProdutoService {
 			}
 					
 			const modelBuild = produtoModel.build(validPayload.value)
-			await modelBuild.save({ transaction })
+			const produto = await modelBuild.save({ transaction })
 
 			transaction.commit()
+			return produto.id
 
 		} catch ( error ) {		
 			console.log(error)	
@@ -64,9 +65,7 @@ class ProdutoService {
 		}
 	}
 
-	async update(payload) {
-
-				
+	async update(payload) {				
 		let validPayload = helper.isValidUpdate(payload)
 				
 		if (validPayload.error) {
@@ -91,6 +90,7 @@ class ProdutoService {
 			await produtoModel.update(validPayload.value, {where: {id: produto.id}}, { transaction })
 
 			transaction.commit()
+			return true
 
 		} catch ( error ) {
 			transaction.rollback()
