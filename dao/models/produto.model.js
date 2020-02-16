@@ -1,5 +1,6 @@
 const {Sequelize ,connection} = require('../connection')
 const NotaItens = require('./nota_itens.model')
+const Subgrupo = require('./subgrupo.model')
 const Model = Sequelize.Model
 
 class Produto extends Model{}
@@ -72,5 +73,11 @@ Produto.hasMany(NotaItens, {
     onDelete: 'CASCADE',
     onUpdate: 'NO ACTION'
 });
+
+Subgrupo.hasOne(Produto, {
+    foreignKey: "id",
+    onDelete: 'NO ACTION',
+    onUpdate: 'NO ACTION'
+  })
 
 module.exports = Produto

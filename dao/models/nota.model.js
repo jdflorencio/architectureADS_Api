@@ -1,6 +1,5 @@
 const {Sequelize ,connection} = require('../connection')
 const NotaItens = require('./nota_itens.model')
-const Pessoa = require('./pessoa.model')
 const Model = Sequelize.Model
 
 class Nota extends Model {}
@@ -85,8 +84,6 @@ Nota.init({
     },
     underscored: false
 })
-
-
 
 Nota.hasMany(NotaItens, {
     foreignKey: 'notaId',
