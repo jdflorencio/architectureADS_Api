@@ -1,6 +1,5 @@
 const {Sequelize ,connection} = require('../connection')
 const Model = Sequelize.Model
-const produto = require('./produto.model')
 const Subgrupo = require('./subgrupo.model')
 
 class Grupo extends Model{}
