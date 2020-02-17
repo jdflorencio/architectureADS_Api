@@ -38,10 +38,6 @@ Grupo.hasMany(Subgrupo, {
     onUpdate: 'NO ACTION'
 });
 
-Subgrupo.hasOne(Grupo, {
-    foreignKey: 'id',
-    onDelete: 'NO ACTION',
-    onUpdate: 'NO ACTION'
-});
+Subgrupo.belongsTo(Grupo);
 
 module.exports = Grupo

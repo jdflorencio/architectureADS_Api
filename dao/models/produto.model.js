@@ -73,12 +73,6 @@ Produto.hasMany(NotaItens, {
     onUpdate: 'NO ACTION'
 });
 
-Subgrupo.hasOne(Produto, {
-    foreignKey: "id",
-    onDelete: 'NO ACTION',
-    onUpdate: 'NO ACTION'
-  })
-
 NotaItens.belongsTo(Produto)
 
 
