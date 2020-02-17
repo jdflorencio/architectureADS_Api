@@ -79,4 +79,7 @@ Subgrupo.hasOne(Produto, {
     onUpdate: 'NO ACTION'
   })
 
+NotaItens.belongsTo(Produto)
+
+
 module.exports = Produto

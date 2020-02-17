@@ -2,6 +2,7 @@ const {Sequelize ,connection} = require('../../dao/connection')
 const notaFiscalModel = require('../../dao/models/nota.model')
 const itensFiscalModel = require('../../dao/models/nota_itens.model')
 const pessoaModel = require('../../dao/models/pessoa.model')
+const produtoModel =require('../../dao/models/produto.model')
 const helper = require('./notaFiscal.helper')
 
 const Promise = require('bluebird');
@@ -24,15 +25,25 @@ class NotaFiscalService {
 	}
 
 	async findById(notaFiscalId) {
-		return await notaFiscalModel.findByPk(notaFiscalId, {
-			include: [
-				{
-					model: pessoaModel,
-					attributes: ['id','tipo', 'nome', 'nome_fantasia','cpf_cnpj' ]					
-				}
-			],
-			attributes: ['numero', 'chave_nfe', 'data_emissao', 'tipo', 'total']
-		})
+		try{
+			return await notaFiscalModel.findByPk(notaFiscalId, {
+				include: [
+					{
+						model: pessoaModel,
+						attributes: ['id','tipo', 'nome', 'nome_fantasia','cpf_cnpj' ]
+					},
+					{
+						model: itensFiscalModel,
+						include :[{
+							model: produtoModel
+						}]
+					}
+				],
+				attributes: ['numero', 'chave_nfe', 'data_emissao', 'tipo', 'total']
+			})
+		} catch (error) {
+			console.log(error)
+		}
 	}
 	
 
