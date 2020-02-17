@@ -24,7 +24,6 @@ Subgrupo.init({
 },
 {
     sequelize: connection,
-    modelName: 'subgrupo',
     tableName: 'subgrupo',
     freezeTableName : true,
     timestamps : false,

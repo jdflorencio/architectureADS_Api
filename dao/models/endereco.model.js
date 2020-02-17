@@ -4,7 +4,7 @@ const {Sequelize ,connection} = require('../connection')
 const Model = Sequelize.Model
 
 class PessoaEndereco extends Model {}
-PessoaEndereco.init({  
+PessoaEndereco.init({
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
@@ -46,4 +46,5 @@ PessoaEndereco.init({
   underscored : false
   })
 
+  console.log('ENDERECOS ',PessoaEndereco === connection.models.PessoaEndereco)
   module.exports = PessoaEndereco;

@@ -28,5 +28,6 @@ PessoaTelefone.init({
   underscored : false
   });
 
+  ("TELFONES >>",PessoaTelefone === connection.models.PessoaTelefone)
 module.exports = PessoaTelefone;    
 

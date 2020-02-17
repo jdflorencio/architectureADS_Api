@@ -73,7 +73,6 @@ Tributacao.init({
     },
 },{
     sequelize: connection,
-    modelName: 'tributacao',
     tableName: 'tributacao',
     freezeTableName : true,
     timestamps : false,

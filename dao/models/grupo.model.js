@@ -22,7 +22,6 @@ Grupo.init({
 },
 {
     sequelize: connection,
-    modelName: 'grupo',
     tableName: 'grupo',
     freezeTableName : true,
     timestamps : false,

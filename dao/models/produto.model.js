@@ -57,7 +57,6 @@ Produto.init({
     }
 }, {
     sequelize: connection,
-    modelName: 'produto',
     tableName: 'produto',
     freezeTableName : true,
     timestamps : false,
@@ -80,4 +79,5 @@ Subgrupo.hasOne(Produto, {
     onUpdate: 'NO ACTION'
   })
 
+  (Produto == connection.models.Produto)
 module.exports = Produto

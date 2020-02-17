@@ -74,7 +74,6 @@ Nota.init({
     }, 
 }, {
     sequelize: connection,
-    modelName: 'nota',
     tableName: 'nota',
     freezeTableName : true,
     timestamps : false,

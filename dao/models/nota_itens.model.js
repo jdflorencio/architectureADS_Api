@@ -61,7 +61,6 @@ NotaItens.init({
     }
 },{
     sequelize: connection,
-    modelName: 'nota_itens',
     tableName: 'nota_itens',
     freezeTableName : true,
     timestamps : false,

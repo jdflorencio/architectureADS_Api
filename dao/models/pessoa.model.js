@@ -54,8 +54,7 @@ Pessoa.init({
   updatedAt: Sequelize.DATE
 },{
     sequelize: connection,
-    modelName: 'pessoa',
-		tableName: 'pessoa',
+    tableName: 'pessoa',
 		freezeTableName : true,
 		timestamps : false,
 		name:{
@@ -77,10 +76,11 @@ Pessoa.init({
       onUpdate: 'NO ACTION'
   });
 
-  Nota.hasOne(Pessoa, {
+  Nota.hasMany(Pessoa, {
     foreignKey: "id",
     onDelete: 'NO ACTION',
     onUpdate: 'NO ACTION'
   })
 
-module.exports = Pessoa;    
+  Nota.belongsTo(Pessoa)
+
