@@ -41,9 +41,10 @@ async save(payload) {
 			}
 					
 			const modelBuild = subgrupoModel.build(validPayload.value)
-			await modelBuild.save({ transaction })
+			const subgrupo = await modelBuild.save({ transaction })
 
 			transaction.commit()
+			return subgrupo
 
 		} catch ( error ) {		
 			console.log(error)	
@@ -53,7 +54,6 @@ async save(payload) {
 	}
 
 	async update(payload) {
-
 				
 		let validPayload = helper.isValidUpdate(payload)
 				
@@ -79,6 +79,7 @@ async save(payload) {
 			await subgrupoModel.update(validPayload.value, {where: {id: subgrupo.id}}, { transaction })
 
 			transaction.commit()
+			return subgrupo
 
 		} catch ( error ) {
 			transaction.rollback()
