@@ -76,7 +76,7 @@ Pessoa.init({
       onUpdate: 'NO ACTION'
   });
 
-  Nota.hasMany(Pessoa, {
+  Pessoa.hasMany(Nota, {
     foreignKey: "id",
     onDelete: 'NO ACTION',
     onUpdate: 'NO ACTION'
@@ -84,3 +84,4 @@ Pessoa.init({
 
   Nota.belongsTo(Pessoa)
 
+module.exports = Pessoa
