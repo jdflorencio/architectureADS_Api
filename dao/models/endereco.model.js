@@ -46,5 +46,4 @@ PessoaEndereco.init({
   underscored : false
   })
 
-  console.log('ENDERECOS ',PessoaEndereco === connection.models.PessoaEndereco)
   module.exports = PessoaEndereco;

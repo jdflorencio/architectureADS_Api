@@ -79,5 +79,4 @@ Subgrupo.hasOne(Produto, {
     onUpdate: 'NO ACTION'
   })
 
-  (Produto == connection.models.Produto)
 module.exports = Produto
