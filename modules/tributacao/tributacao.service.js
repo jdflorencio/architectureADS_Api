@@ -28,9 +28,10 @@ async save(payload) {
 			}
 					
 			const modelBuild = tributacaoModel.build(validPayload.value)
-			await modelBuild.save({ transaction })
+			const tributacao = await modelBuild.save({ transaction })
 
 			transaction.commit()
+			return tributacao
 
 		} catch ( error ) {		
 			console.log(error)	
@@ -65,6 +66,8 @@ async save(payload) {
 			await tributacaoModel.update(validPayload.value, {where: {id: tributacao.id}}, { transaction })
 
 			transaction.commit()
+
+			return tributacao
 
 		} catch ( error ) {
 			transaction.rollback()

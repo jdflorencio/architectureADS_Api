@@ -7,7 +7,7 @@ class TributacaoController {
    async save(req, res) {		
 		try {
 			const result = await this.service.save(req.body);
-			res.json({sucesso: true, data: result})
+			res.json({sucesso: true, data: result, msg: "Tsributo Adicionando com sucesso!"})
 
 		} catch (error) {
 			res.status(409).json({sucesso: false, mensagem: error.mensage, erro: error.error || []})
