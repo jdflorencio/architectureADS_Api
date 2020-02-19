@@ -35,11 +35,13 @@ class NotaFiscalService {
 					{
 						model: itensFiscalModel,
 						include :[{
-							model: produtoModel
+							model: produtoModel,
+							attributes: ["referencia", "descricao", "codigo_ean", "vl_venda", "ncm"]
+							
 						}]
 					}
 				],
-				attributes: ['numero', 'chave_nfe', 'data_emissao', 'tipo', 'total']
+				attributes: ['id','pessoaId' ,'numero', 'chave_nfe', 'data_emissao', 'tipo', 'total']
 			})
 		} catch (error) {
 			console.log(error)
