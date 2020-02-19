@@ -36,6 +36,18 @@ class ProdutoController {
 
 		}
 	}
+
+	async filter(req, res) {
+		try {
+			
+			const result = await this.service.findData(req.params.data);
+			res.json({sucesso: true, result})
+
+    } catch (error) {
+			res.status(409).json({sucesso: false, error})
+
+		}
+	}
 	
   async findAll(req, res) {
     try {

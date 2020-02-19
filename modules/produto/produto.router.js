@@ -1,6 +1,8 @@
 const router = require('express').Router()
 const controller = require('./produto.controller')
 
+router.get('/produtofilter/:data', async (req, res) => { await controller.filter(req, res) })
+
 router.get('/produto', async (req, res) => { await controller.findAll(req, res) })
 router.get('/produto/:id', async (req, res) => { await controller.findOne(req, res) })
 router.post('/produto', async (req, res) => { await controller.save(req, res) })

@@ -1,4 +1,5 @@
 const {Sequelize ,connection} = require('../../dao/connection')
+const {Op} = Sequelize
 const produtoModel = require('../../dao/models/produto.model')
 const grupoModel = require('../../dao/models/grupo.model')
 const subgrupoModel = require('../../dao/models/subgrupo.model')
@@ -38,6 +39,33 @@ class ProdutoService {
 			throw error
 		}
 	}
+
+	async findData(data) {
+		console.log('>>>>>>>>',data)
+		try {
+			const produto = await produtoModel.findAll({
+				where: {
+					[Op.or]:[
+						{
+							descricao:{[Op.substring]:data}
+						},
+						{
+							id:data
+						},
+						{
+							codigo_ean: data
+						}
+					]
+				} 
+			})		
+
+			return produto
+
+		} catch (error) {	
+			console.log(error)
+			throw error
+		}
+	}
 	
 
 	async save(payload) {
@@ -65,9 +93,9 @@ class ProdutoService {
 		}
 	}
 
-	async update(payload) {				
+	async update(payload) {
 		let validPayload = helper.isValidUpdate(payload)
-				
+
 		if (validPayload.error) {
 			return Promise.reject({
 				message         : "Dados de entrada inválidos, verifique os campos obrigatorios",
