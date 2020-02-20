@@ -1,4 +1,5 @@
 const {Sequelize ,connection} = require('../connection')
+const Produto = require('./produto.model')
 const Model = Sequelize.Model
 
 class Tributacao extends Model {}
@@ -82,5 +83,14 @@ Tributacao.init({
     },
     underscored: false
 })
+
+Tributacao.hasMany(Produto, {
+    foreignKey: 'tributacaoId',
+    onDelete: 'NO ACTION',
+    onUpdate: 'NO ACTION'
+});
+
+Produto.belongsTo(Tributacao)
+
 
 module.exports = Tributacao

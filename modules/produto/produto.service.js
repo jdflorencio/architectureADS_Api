@@ -3,6 +3,7 @@ const {Op} = Sequelize
 const produtoModel = require('../../dao/models/produto.model')
 const grupoModel = require('../../dao/models/grupo.model')
 const subgrupoModel = require('../../dao/models/subgrupo.model')
+const tributacaoModel = require('../../dao/models/tributacao.model')
 const helper = require('../produto/produto.helper')
 
 const Promise = require('bluebird');
@@ -16,7 +17,7 @@ class ProdutoService {
 	async findById(produtoId) {
 		try {
 
-			
+			console.log(produtoId)
 			const produto = await produtoModel.findByPk(produtoId)		
 
 			const grupo =  await grupoModel.findByPk(produto.grupoId, {
@@ -57,7 +58,14 @@ class ProdutoService {
 						}
 					]
 				}, 
-				// attributes: ["id","descricao", "referencia","estoque_atual", "vl_venda"]
+				attributes: {
+					exclude: ["log_criacao", "log_atualizacao", "log_usuario", "tributacaoId"]
+				},
+				include: [
+					{
+						model: tributacaoModel
+					}
+				]
 			}
 			)
 
