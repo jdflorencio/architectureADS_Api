@@ -41,7 +41,7 @@ class ProdutoService {
 	}
 
 	async findData(data) {
-		console.log('>>>>>>>>',data)
+		
 		try {
 			const produto = await produtoModel.findAll({
 				where: {
@@ -56,8 +56,14 @@ class ProdutoService {
 							codigo_ean: data
 						}
 					]
-				} 
-			})		
+				}, 
+				attributes: ["id","descricao", "referencia","estoque_atual", "vl_venda"]
+			}
+			)
+
+			produto.map(prod => {
+				prod.dataValues.value = prod.descricao
+			})
 
 			return produto
 
