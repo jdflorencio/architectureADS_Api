@@ -16,7 +16,7 @@ class ProdutoService {
 	async findById(produtoId) {
 		try {
 
-			console.log(produtoId)
+			
 			const produto = await produtoModel.findByPk(produtoId)		
 
 			const grupo =  await grupoModel.findByPk(produto.grupoId, {
@@ -57,7 +57,7 @@ class ProdutoService {
 						}
 					]
 				}, 
-				attributes: ["id","descricao", "referencia","estoque_atual", "vl_venda"]
+				// attributes: ["id","descricao", "referencia","estoque_atual", "vl_venda"]
 			}
 			)
 
