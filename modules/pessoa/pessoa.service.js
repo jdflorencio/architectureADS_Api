@@ -1,9 +1,9 @@
 const {Sequelize ,connection} = require('../../dao/connection')
+const {Op} = Sequelize
 const pessoaModel = require('../../dao/models/pessoa.model')
 const enderecoModel = require('../../dao/models/endereco.model')
 const telefoneModel = require('../../dao/models/telefone.model')
 const helper = require('../pessoa/pessoa.helper')
-
 
 const Promise = require('bluebird');
 
@@ -38,44 +38,67 @@ class PessoaService {
 			],
 		})
 	}
-	
 
-async save(payload) {
-		const transaction = await connection.transaction({ isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.READ_COMMITTED })
-
-		try {
-			let validPayload = helper.isValidCreate(payload)			
-			if (validPayload.error) {
-				return Promise.reject({
-					message         : "Dados de entrada inválidos, verifique os campos obrigatorios",
-					error           : validPayload.error.msg
-				});
+	async findData(data) {
+		return await pessoaModel.findAll({
+			where: {
+				[Op.or]:[
+					{
+						nome:{[Op.substring]:data}
+					},
+					{
+						cpf_cnpj: data
+					},
+					{
+						rg: data
+					},
+					{
+						inscricao_estadual: data
+					},
+					{
+						nome_fantasia: data
+					}
+				]
 			}
-					
-			const modelBuild = pessoaModel.build(validPayload.value)
-			let pessoa = await modelBuild.save({ transaction })
-
-			validPayload.value.enderecos.map(endereco => endereco.pessoaId = pessoa.id)
-			validPayload.value.telefones.map(telefone => telefone.pessoaId = pessoa.id)
-
-			let inserts = [
-				enderecoModel.bulkCreate(validPayload.value.enderecos, {transaction}),
-				telefoneModel.bulkCreate(validPayload.value.telefones, {transaction}),
-			]
-
-			return Promise.all(inserts).then(() => {
-					transaction.commit()
-					return pessoa
-			}).catch(error => {
-				transaction.rollback();
-                throw error;
-			})
-		} catch ( error ) {		
-			console.log(errors)	
-			transaction.rollback()
-			throw error
-		}
+		})
 	}
+
+	async save(payload) {
+			const transaction = await connection.transaction({ isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.READ_COMMITTED })
+
+			try {
+				let validPayload = helper.isValidCreate(payload)			
+				if (validPayload.error) {
+					return Promise.reject({
+						message         : "Dados de entrada inválidos, verifique os campos obrigatorios",
+						error           : validPayload.error.msg
+					});
+				}
+						
+				const modelBuild = pessoaModel.build(validPayload.value)
+				let pessoa = await modelBuild.save({ transaction })
+
+				validPayload.value.enderecos.map(endereco => endereco.pessoaId = pessoa.id)
+				validPayload.value.telefones.map(telefone => telefone.pessoaId = pessoa.id)
+
+				let inserts = [
+					enderecoModel.bulkCreate(validPayload.value.enderecos, {transaction}),
+					telefoneModel.bulkCreate(validPayload.value.telefones, {transaction}),
+				]
+
+				return Promise.all(inserts).then(() => {
+						transaction.commit()
+						return pessoa
+				}).catch(error => {
+					transaction.rollback();
+					throw error;
+				})
+			} catch ( error ) {		
+				console.log(errors)	
+				transaction.rollback()
+				throw error
+			}
+		}
 
 	async update(payload) {
 

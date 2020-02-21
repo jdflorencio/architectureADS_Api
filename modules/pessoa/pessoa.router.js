@@ -1,6 +1,8 @@
 const router = require('express').Router()
 const controller = require('./pessoa.controller')
 
+router.get('/clientefilter/:data', async (req, res) => { await controller.filter(req, res) })
+
 router.get('/cliente', async (req, res) => { await controller.findAll(req, res) })
 router.get('/cliente/:id', async (req, res) => { await controller.findOne(req, res) })
 router.post('/cliente', async (req, res) => { await controller.save(req, res) })
