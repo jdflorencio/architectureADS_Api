@@ -1,7 +1,7 @@
-const {Sequelize ,connection} = require('../connection')
+const { Sequelize, connection } = require('../connection')
 const Model = Sequelize.Model
 
-class NotaItens extends Model {}
+class NotaItens extends Model { }
 NotaItens.init({
     id: {
         type: Sequelize.INTEGER,
@@ -59,11 +59,11 @@ NotaItens.init({
     base_ipi: {
         type: Sequelize.DECIMAL
     }
-},{
+}, {
     sequelize: connection,
     tableName: 'nota_itens',
-    freezeTableName : true,
-    timestamps : false,
+    freezeTableName: true,
+    timestamps: false,
     name: {
         singular: 'nota_itens',
         plural: 'nota_itens'
@@ -71,5 +71,5 @@ NotaItens.init({
     underscored: false
 })
 
-module.exports =  NotaItens
+module.exports = NotaItens
 

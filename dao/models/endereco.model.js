@@ -1,24 +1,24 @@
 'use strict';
 
-const {Sequelize ,connection} = require('../connection')
+const { Sequelize, connection } = require('../connection')
 const Model = Sequelize.Model
 
-class PessoaEndereco extends Model {}
+class PessoaEndereco extends Model { }
 PessoaEndereco.init({
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
     autoIncrement: true
   },
-  endereco : {
+  endereco: {
     type: Sequelize.STRING,
     allowNull: true
   },
-  bairro : {
+  bairro: {
     type: Sequelize.STRING,
     allowNull: true
   },
-  numero : {
+  numero: {
     type: Sequelize.STRING,
     allowNull: true,
   },
@@ -33,17 +33,26 @@ PessoaEndereco.init({
   uf: {
     type: Sequelize.STRING,
     allowNull: true
+  },
+  log_criacao: {
+    type: Sequelize.DATE
+  },
+  log_atualizacao: {
+    type: Sequelize.DATE
+  },
+  log_pct_usuario: {
+    type: Sequelize.INTEGER
   }
 }, {
   sequelize: connection,
   tableName: 'endereco',
-  freezeTableName : true,
-  timestamps : false,
-  name:{
-          singular:'endereco',
-          plural: 'enderecos'
+  freezeTableName: true,
+  timestamps: false,
+  name: {
+    singular: 'endereco',
+    plural: 'enderecos'
   },
-  underscored : false
-  })
+  underscored: false
+})
 
-  module.exports = PessoaEndereco;
+module.exports = PessoaEndereco;
