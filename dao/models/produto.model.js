@@ -67,7 +67,7 @@ Produto.init({
     underscored: false
 });
 
-Produto.hasMany(NotaItens, {
+Produto.hasOne(NotaItens, {
     foreignKey: 'produtoId',
     onDelete: 'CASCADE',
     onUpdate: 'NO ACTION'

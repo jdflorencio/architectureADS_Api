@@ -36,10 +36,12 @@ class NotaFiscalService {
 				attributes: ['id','pessoaId' ,'numero', 'chave_nfe', 'data_emissao', 'tipo', 'total']
 			})
 
-			const produto = await produtoModel.findAll({
+			const itens = await produtoModel.findAll({
+				attributes: ["descricao", "vl_venda", "estoque_atual", "referencia", "id"],
 				include: [
 					{
 						model: itensFiscalModel,
+						
 						where: [{
 							notaId: cabecalho.id
 						}]
@@ -49,7 +51,7 @@ class NotaFiscalService {
 			})
 
 			return {
-				cabecalho, produto
+				cabecalho, itens
 			}
 		} catch (error) {
 			console.log(error)
