@@ -26,23 +26,31 @@ class NotaFiscalService {
 
 	async findById(notaFiscalId) {
 		try{
-			return await notaFiscalModel.findByPk(notaFiscalId, {
+			const cabecalho = await notaFiscalModel.findByPk(notaFiscalId, {
 				include: [
 					{
 						model: pessoaModel,
 						attributes: ['id','tipo', 'nome', 'nome_fantasia','cpf_cnpj' ]
-					},
-					{
-						model: itensFiscalModel,
-						include :[{
-							model: produtoModel,
-							attributes: ["referencia", "descricao", "codigo_ean", "vl_venda", "ncm"]
-							
-						}]
 					}
 				],
 				attributes: ['id','pessoaId' ,'numero', 'chave_nfe', 'data_emissao', 'tipo', 'total']
 			})
+
+			const produto = await produtoModel.findAll({
+				include: [
+					{
+						model: itensFiscalModel,
+						where: [{
+							notaId: cabecalho.id
+						}]
+					}
+				]
+
+			})
+
+			return {
+				cabecalho, produto
+			}
 		} catch (error) {
 			console.log(error)
 		}
