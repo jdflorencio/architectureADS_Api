@@ -37,7 +37,7 @@ class NotaFiscalService {
 			})
 
 			const itens = await produtoModel.findAll({
-				attributes: ["descricao", "vl_venda", "estoque_atual", "referencia", "id"],
+				attributes: ["descricao",  "estoque_atual", "referencia"],
 				include: [
 					{
 						model: itensFiscalModel,

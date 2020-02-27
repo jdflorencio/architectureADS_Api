@@ -55,11 +55,14 @@ class ProdutoService {
 					]
 				}, 
 				attributes: {
-					exclude: ["log_criacao", "log_atualizacao", "log_usuario", "tributacaoId", "log_pct_usuario", "fabricante", "estoque_minimo", "estoque_maximo"]
+					exclude: ["log_criacao", "log_atualizacao", "tributacaoId", "log_pct_usuario", "fabricante", "estoque_minimo", "estoque_maximo"]
 				},
 				include: [
 					{
-						model: tributacaoModel
+						model: tributacaoModel,
+						attributes: {
+							exclude: ["log_criacao", "log_atualizacao", "tributacaoId", "log_pct_usuario", "aliq_cofins_compra", "cst_cofins_compra", "aliq_pis_compra", "cst_pis_compra", "cst_base_compra", "aliq_icms_reducao_compra", "aliq_icms_compra_fora_estado", "aliq_icms_compra_dentro_estado"]
+						},
 					}
 				]
 			})
