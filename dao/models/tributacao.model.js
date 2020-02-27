@@ -12,6 +12,12 @@ Tributacao.init({
     descricao: {
         type: Sequelize.STRING
     },
+    cfop_dentro_estado: {
+        type: Sequelize.STRING
+    },
+    cfop_fora_estado: {
+        type: Sequelize.STRING
+    },
     aliq_icms_venda_dentro_estado: {
         type: Sequelize.DECIMAL
     },

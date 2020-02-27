@@ -15,8 +15,7 @@ class PessoaService {
         'tipo',
         'nome',
         'nome_fantasia',
-        'createdAt',
-        'updatedAt'
+
 		]})
 	}
 

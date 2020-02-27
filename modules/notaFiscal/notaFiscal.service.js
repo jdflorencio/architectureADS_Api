@@ -41,7 +41,6 @@ class NotaFiscalService {
 				include: [
 					{
 						model: itensFiscalModel,
-						
 						where: [{
 							notaId: cabecalho.id
 						}]

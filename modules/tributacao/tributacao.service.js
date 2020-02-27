@@ -26,7 +26,6 @@ async save(payload) {
 					error           : validPayload.error.msg
 				});
 			}
-					
 			const modelBuild = tributacaoModel.build(validPayload.value)
 			const tributacao = await modelBuild.save({ transaction })
 

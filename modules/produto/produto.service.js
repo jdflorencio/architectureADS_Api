@@ -5,8 +5,7 @@ const grupoModel = require('../../dao/models/grupo.model')
 const subgrupoModel = require('../../dao/models/subgrupo.model')
 const tributacaoModel = require('../../dao/models/tributacao.model')
 const helper = require('../produto/produto.helper')
-
-const Promise = require('bluebird');
+const Promise = require('bluebird')
 
 class ProdutoService {
 
@@ -15,11 +14,10 @@ class ProdutoService {
 	}
 
 	async findById(produtoId) {
+
 		try {
 
-			console.log(produtoId)
-			const produto = await produtoModel.findByPk(produtoId)		
-
+			const produto = await produtoModel.findByPk(produtoId)
 			const grupo =  await grupoModel.findByPk(produto.grupoId, {
 				attributes: {
 					exclude: ["log_criacao","log_atualizacao",  "log_pct_usuario"]
@@ -29,20 +27,18 @@ class ProdutoService {
 				attributes: {
 					exclude: ["log_criacao","log_atualizacao",  "log_pct_usuario"]
 				}
-			}) || null 
+			}) || null
 	
 			return {
 				produto, grupo, subgrupo
 			}
 
 		} catch (error) {	
-			console.log(error)
 			throw error
 		}
 	}
 
-	async findData(data) {
-		
+	async findData(data) {		
 		try {
 			const produto = await produtoModel.findAll({
 				where: {
@@ -59,15 +55,14 @@ class ProdutoService {
 					]
 				}, 
 				attributes: {
-					exclude: ["log_criacao", "log_atualizacao", "log_usuario", "tributacaoId"]
+					exclude: ["log_criacao", "log_atualizacao", "log_usuario", "tributacaoId", "log_pct_usuario", "fabricante", "estoque_minimo", "estoque_maximo"]
 				},
 				include: [
 					{
 						model: tributacaoModel
 					}
 				]
-			}
-			)
+			})
 
 			produto.map(prod => {
 				prod.dataValues.value = prod.descricao
@@ -80,7 +75,6 @@ class ProdutoService {
 			throw error
 		}
 	}
-	
 
 	async save(payload) {
 		const transaction = await connection.transaction({ isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.READ_COMMITTED })
