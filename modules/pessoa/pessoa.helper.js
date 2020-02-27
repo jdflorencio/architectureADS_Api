@@ -4,15 +4,15 @@ const enderecoSchema = {
     //pessoaId    : Joi.number().integer().min(0).required(),
     complemento : Joi.string().min(3).max(40).allow(null),
     numero      : Joi.string().min(1).max(6).allow(null),
-    bairro      : Joi.string().min(1).max(60),
-    cidade      : Joi.string().min(2).max(60),
-    uf          : Joi.string().min(2).max(2)
+    bairro      : Joi.string().min(1).max(60).allow(null),
+    cidade      : Joi.string().min(2).max(60).allow(null),
+    uf          : Joi.string().min(2).max(2).allow(null)
 }
 
 const telefoneSchema = {
     // pessoaId    : Joi.number().integer().min(0),
     //tipo        : Joi.number().integer().valid([1,2]).required(),
-    telefone      : Joi.string()
+    telefone      : Joi.string().allow(null)
 }
 
 const pessoaSchema = {   
@@ -22,7 +22,7 @@ const pessoaSchema = {
     nascimento          : Joi.date().iso(),
     enderecos           : Joi.array().items(Joi.object().keys(enderecoSchema).allow(null)),
     telefones           : Joi.array().items(Joi.object().keys(telefoneSchema).allow(null)),
-    cpf_cnpj            : Joi.string().min(14).max(60).required(),
+    cpf_cnpj            : Joi.string().min(11).max(60).required(),
     data_fundacao       : Joi.date().allow(null),
     data_nascimento     : Joi.date().allow(null),
     email               : Joi.string().email().allow(null),
