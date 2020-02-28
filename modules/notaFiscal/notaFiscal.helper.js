@@ -2,7 +2,7 @@ const Joi = require('@hapi/joi')
 
 const nota_itens = {
     //id              : Joi.string(),
-    //notaId          : Joi.number().integer().min(0),
+    notaId          : Joi.number().integer().min(0).required(),
     produtoId       : Joi.number().integer().min(0),
     cfop            : Joi.string().min(4).max(4),
     cst             : Joi.string().min(3).max(4),
@@ -21,27 +21,39 @@ const nota_itens = {
     base_ipi        : Joi.number(),
 }
 
-const notaFiscalSchema = {
-    //id              : Joi.string(), 
-    pessoaId        : Joi.number().integer().min(0), 
-    numero          : Joi.number().integer().min(1), 
-    chave_nfe       : Joi.string().min(44).max(44).allow(null),
-    data_emissao    : Joi.date().iso().allow(null),
-    data_entrada    : Joi.date().iso().allow(null),
-    valor_desconto  : Joi.number(), 
-    valor_acrecismo : Joi.number(), 
-    subtotal        : Joi.number(), 
-    total           : Joi.number(),  
-    tipo            : Joi.string(), 
-    base_icms       : Joi.number(), 
-    valor_icms      : Joi.number(), 
-    base_subst      : Joi.number(), 
-    base_ipi        : Joi.number(), 
-    valor_ipi       : Joi.number(), 
-    valor_frete     : Joi.number(), 
-    valor_outros    : Joi.number(), 
-    valor_seguro    : Joi.number(),
-    nota_itens      : Joi.array().items(Joi.object().keys(nota_itens).allow(null)),
+const cabecalho = {
+ 
+  // id            : Joi.number().integer().min(0).allow(null), 
+  numero          : Joi.number(),    /*int(11)*/
+  pessoaId        : Joi.number().integer().min(0), 
+  chave_nfe       : Joi.string().min(44).max(44).allow(null),    /*varchar(44)*/
+  data_emissao    : Joi.date().iso().allow(null),    /*datetime*/
+  data_entrada    : Joi.date().iso().allow(null),    /*datetime  */
+  valor_desconto  : Joi.number(),    /*decimal(12,4)*/
+  valor_acrecismo : Joi.number(),    /*decimal(12,4)*/
+  subtotal        : Joi.number(),    /*decimal(12,4)*/
+  total           : Joi.number(),    /*decimal(12,4)*/
+  // tipo            : Joi.number(),    /*enum('ENTRADA','SAIDA')*/
+  base_icms       : Joi.number(),    /*decimal(12,4)*/
+  valor_icms      : Joi.number(),    /*decimal(12,4)*/
+  base_subst      : Joi.number(),    /*decimal(12,4)*/
+  base_ipi        : Joi.number(),    /*decimal(12,4)*/
+  valor_ipi       : Joi.number(),    /*decimal(12,4)*/
+  valor_frete     : Joi.number(),    /*decimal(12,4)*/
+  valor_outros    : Joi.number(),    /*decimal(12,4)*/
+  valor_seguro    : Joi.number(),    /*decimal(12,4)*/
+
+}
+
+const itens = {
+  descricao :  Joi.string().min(4).max(44).required(),
+  nota_itens : Joi.object({nota_itens }).required()
+}
+
+const notaFiscalSchema = {    
+    cabecalho  : Joi.object({cabecalho}),
+    itens      : Joi.array().items(Joi.object().keys(itens).allow(null))
+  
 }
 
 class NotaFiscalHelper {
@@ -58,10 +70,10 @@ class NotaFiscalHelper {
     }
 
     isValidUpdate(payload) {
-        this.schema.id = Joi.number().integer().required()
+        this.schema.cabecalho.id = Joi.number().integer().required()
         const schema = Joi.object().keys(this.schema)
-        const result = schema.validate(payload.cabecalho, {allowUnknown : true})
-        return this.resetJoiErrorMessage(result)           
+        const result = schema.validate(payload, {allowUnknown : true})
+        return this.resetJoiErrorMessage(result)
     }
 
     resetJoiErrorMessage(joiResult) {
