@@ -2,7 +2,7 @@ const Joi = require('@hapi/joi')
 
 const nota_itens = {
     //id              : Joi.string(),
-    notaId          : Joi.number().integer().min(0),
+    //notaId          : Joi.number().integer().min(0),
     produtoId       : Joi.number().integer().min(0),
     cfop            : Joi.string().min(4).max(4),
     cst             : Joi.string().min(3).max(4),
@@ -60,7 +60,7 @@ class NotaFiscalHelper {
     isValidUpdate(payload) {
         this.schema.id = Joi.number().integer().required()
         const schema = Joi.object().keys(this.schema)
-        const result = schema.validate(payload, {allowUnknown : true})
+        const result = schema.validate(payload.cabecalho, {allowUnknown : true})
         return this.resetJoiErrorMessage(result)           
     }
 

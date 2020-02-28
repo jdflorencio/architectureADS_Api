@@ -99,7 +99,7 @@ class NotaFiscalService {
 
 	async update(payload) {
 
-				
+		console.log(payload)
 		let validPayload = helper.isValidUpdate(payload)
 				
 		if (validPayload.error) {
