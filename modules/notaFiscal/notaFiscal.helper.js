@@ -65,7 +65,8 @@ class NotaFiscalHelper {
     isValidCreate(payload) {
         delete this.schema.id
         const schema = Joi.object().keys(this.schema)
-        const result = schema.validate(payload, {allowUnknown : true, stripUnknown : true})
+        const result = schema.validate(payload, {allowUnknown : true})
+        // const result = schema.validate(payload, {allowUnknown : true, stripUnknown : true})
         return this.resetJoiErrorMessage(result)          
     }
 

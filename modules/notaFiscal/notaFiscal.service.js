@@ -58,10 +58,10 @@ class NotaFiscalService {
 	
 
 	async save(payload) {
-
-		console.log("aqui..")
+	
 		const transaction = await connection.transaction({ isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.READ_COMMITTED })
 
+		
 		try {
 			let validPayload = helper.isValidCreate(payload)			
 			if (validPayload.error) {
@@ -70,14 +70,19 @@ class NotaFiscalService {
 					error           : validPayload.error.msg
 				});
 			}
-					
-			const modelBuild = notaFiscalModel.build(validPayload.value)
+
+			const modelBuild = notaFiscalModel.build(validPayload.value.cabecalho)
 			const cabecalhoNota = await modelBuild.save({ transaction })
 
-			validPayload.value.itens.nota_itens.map( item => item.notaId = cabecalhoNota.id)
+
+			let itens = []
+			validPayload.value.itens.map( item => {
+				item.nota_itens.notaId =  cabecalhoNota.id
+				itens.push(item.nota_itens)
+			})
 
 			let inserts = [
-				itensFiscalModel.bulkCreate(validPayload.value.itens.nota_itens, {transaction})
+				itensFiscalModel.bulkCreate(itens, {transaction})
 			]
 
 			return Promise.all(inserts)
@@ -85,14 +90,10 @@ class NotaFiscalService {
 				transaction.commit()
 				return cabecalhoNota
 			})
-			.catch( error => {
-				console.log(error)
-				transaction.rollback()
-				throw error
-			})
+
 
 		} catch ( error ) {		
-			console.log(error)
+
 			transaction.rollback()
 			throw error
 		}
