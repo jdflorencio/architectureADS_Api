@@ -18,7 +18,7 @@ class NotaFiscalController {
 		try {
 		
 			const result = await this.service.update(req.body);
-			res.json({sucesso: true, id: result.id , msg: 'NotaFiscal Atualizado com sucesso!'})
+			res.json({sucesso: true, id: result.id , result})
 
 		} catch (error) {
 			res.status(409).json({sucesso: false, error})
