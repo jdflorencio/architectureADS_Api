@@ -26,7 +26,7 @@ class NotaFiscalService {
 
 	async findById(notaFiscalId) {
 		try{
-			const cabecalho = await notaFiscalModel.findByPk(notaFiscalId, {
+			let cabecalho = await notaFiscalModel.findByPk(notaFiscalId, {
 				include: [
 					{
 						model: pessoaModel,
@@ -46,10 +46,9 @@ class NotaFiscalService {
 						}]
 					}
 				]
-
 			})
-
-			return {
+			
+			return  {
 				cabecalho, itens
 			}
 		} catch (error) {
@@ -59,6 +58,8 @@ class NotaFiscalService {
 	
 
 	async save(payload) {
+
+		console.log("aqui..")
 		const transaction = await connection.transaction({ isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.READ_COMMITTED })
 
 		try {
@@ -73,10 +74,10 @@ class NotaFiscalService {
 			const modelBuild = notaFiscalModel.build(validPayload.value)
 			const cabecalhoNota = await modelBuild.save({ transaction })
 
-			validPayload.value.nota_itens.map( item => item.notaId = cabecalhoNota.id)
+			validPayload.value.itens.nota_itens.map( item => item.notaId = cabecalhoNota.id)
 
 			let inserts = [
-				itensFiscalModel.bulkCreate(validPayload.value.nota_itens, {transaction})
+				itensFiscalModel.bulkCreate(validPayload.value.itens.nota_itens, {transaction})
 			]
 
 			return Promise.all(inserts)
@@ -91,15 +92,14 @@ class NotaFiscalService {
 			})
 
 		} catch ( error ) {		
-			console.log(error)	
+			console.log(error)
 			transaction.rollback()
 			throw error
 		}
 	}
 
 	async update(payload) {
-
-		console.log(payload)
+		
 		let validPayload = helper.isValidUpdate(payload)
 				
 		if (validPayload.error) {
@@ -109,25 +109,45 @@ class NotaFiscalService {
 			});
 		}
 		
-		let notaFiscal = await notaFiscalModel.findByPk(validPayload.value.id)
+		let notaFiscal = await notaFiscalModel.findByPk(validPayload.value.cabecalho.id)
 
 		if(!notaFiscal) {
 			return Promise.reject({
-				message: "NotaFiscal não encontrada.",
-				error: ["NotaFiscal não encontrada"]
+				message: "Nota Fiscal não encontrada.",
+				error: ["Nota Fiscal não encontrada"]
 			})
 		}
+
+		const itens = {
+			novos: [],
+			salvos: [],
+			deletados:[]
+		}
+
+		validPayload.value.itens.map( item => {
+			item.nota_itens.notaId = notaFiscal.id
+			if (item.nota_itens["id"] != undefined) {
+				itens.salvos.push(item.nota_itens)
+			} else {
+				itens.novos.push(item.nota_itens)
+			}
+		})
 
 		const transaction = await connection.transaction({ isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.READ_COMMITTED })
 
 		try {
 			await notaFiscalModel.update(validPayload.value, {where: {id: notaFiscal.id}}, { transaction })
 
-			transaction.commit()
-
+			return Promise.all(
+				itensFiscalModel.bulkCreate(itens.salvos, { transaction: transaction, updateOnDuplicate: ["id"] }),
+				itensFiscalModel.bulkCreate(itens.novos, { transaction })
+			).then(()=> {
+				transaction.commit()
+				return notaFiscal
+			})
 		} catch ( error ) {
 			transaction.rollback()
-			return {status: 400, error}
+			throw error
 		}
 	}
 
