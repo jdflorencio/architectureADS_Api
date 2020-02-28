@@ -58,7 +58,8 @@ class PessoaService {
 						nome_fantasia: data
 					}
 				]
-			}
+			}, 
+			attributes: ["id", "nome", "cpf_cnpj", "nome_fantasia", "tipo"]
 		})
 	}
 
