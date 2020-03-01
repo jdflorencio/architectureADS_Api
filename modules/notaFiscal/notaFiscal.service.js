@@ -20,7 +20,7 @@ class NotaFiscalService {
 					}
 				}
 			],
-			attributes: ['numero', 'chave_nfe', 'data_emissao', 'tipo', 'total']
+			attributes: ['id','numero', 'chave_nfe', 'data_emissao', 'tipo', 'total']
 		} )
 	}
 
