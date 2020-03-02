@@ -127,11 +127,17 @@ class NotaFiscalService {
 
 		validPayload.value.itens.map( item => {
 			item.nota_itens.notaId = notaFiscal.id
-			if (item.nota_itens["id"] != undefined) {
+			if (item.nota_itens["id"] != undefined && item.deletado != true) {
 				itens.salvos.push(item.nota_itens)
-			} else {
+			}
+			
+			if (item.nota_itens["id"] ==  undefined && item.deletado != true ) {
 				itens.novos.push(item.nota_itens)
 			}
+			
+			if (item.deletado ) {
+				itens.deletados.push(item.nota_itens.id)
+			} 
 		})
 
 		const transaction = await connection.transaction({ isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.READ_COMMITTED })
@@ -139,10 +145,17 @@ class NotaFiscalService {
 		try {
 			await notaFiscalModel.update(validPayload.value, {where: {id: notaFiscal.id}}, { transaction })
 
-			return Promise.all(
+			const insert = [
 				itensFiscalModel.bulkCreate(itens.salvos, { transaction: transaction, updateOnDuplicate: ["id"] }),
-				itensFiscalModel.bulkCreate(itens.novos, { transaction })
-			).then(()=> {
+				itensFiscalModel.bulkCreate(itens.novos, { transaction }),
+				itensFiscalModel.destroy({where: 
+					{id: itens.deletados }
+				}, { transaction })
+			]
+
+			return Promise.all(insert)
+			.then((res)=> {
+				console.log(res)
 				transaction.commit()
 				return notaFiscal
 			})
