@@ -9,8 +9,8 @@ const Promise = require('bluebird');
 
 class NotaFiscalService {
 
-	async findAll() {	
-		
+	async findAll(pagina) {
+
 		return await notaFiscalModel.findAndCountAll({
 			include:[
 				{
@@ -21,8 +21,8 @@ class NotaFiscalService {
 				}
 			],
 			attributes: ['id','numero', 'chave_nfe', 'data_emissao', 'tipo', 'total'],
-			offset: ((1 - 1)* 4),
-			limit: 4,			
+			offset: ((pagina - 1)* 4),
+			limit: 4,
 		} )
 	}
 
@@ -62,7 +62,6 @@ class NotaFiscalService {
 	
 		const transaction = await connection.transaction({ isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.READ_COMMITTED })
 
-		
 		try {
 			let validPayload = helper.isValidCreate(payload)			
 			if (validPayload.error) {

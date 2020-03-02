@@ -39,7 +39,7 @@ class NotaFiscalController {
 	
   	async findAll(req, res) {
     	try {
-			const result = await this.service.findAll();
+			const result = await this.service.findAll(+req.query.pagina);
 			res.json({sucesso: true, result})
 
     	} catch (error) {
