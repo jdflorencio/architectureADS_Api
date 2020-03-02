@@ -9,9 +9,9 @@ const Promise = require('bluebird');
 
 class NotaFiscalService {
 
-	async findAll() {
+	async findAll() {	
 		
-		return await notaFiscalModel.findAll({
+		return await notaFiscalModel.findAndCountAll({
 			include:[
 				{
 					model: pessoaModel,
@@ -20,7 +20,9 @@ class NotaFiscalService {
 					}
 				}
 			],
-			attributes: ['id','numero', 'chave_nfe', 'data_emissao', 'tipo', 'total']
+			attributes: ['id','numero', 'chave_nfe', 'data_emissao', 'tipo', 'total'],
+			offset: ((1 - 1)* 4),
+			limit: 4,			
 		} )
 	}
 
@@ -55,7 +57,6 @@ class NotaFiscalService {
 			console.log(error)
 		}
 	}
-	
 
 	async save(payload) {
 	
