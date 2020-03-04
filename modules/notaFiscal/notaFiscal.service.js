@@ -127,11 +127,11 @@ class NotaFiscalService {
 
 		validPayload.value.itens.map( item => {
 			item.nota_itens.notaId = notaFiscal.id
-			if (item.nota_itens["id"] != undefined && item.deletado != true) {
+			if (item.nota_itens["id"] != undefined && item.deletado == undefined) {
 				itens.salvos.push(item.nota_itens)
 			}
 			
-			if (item.nota_itens["id"] ==  undefined && item.deletado != true ) {
+			if (item.nota_itens["id"] ==  undefined && item.deletado == undefined ) {
 				itens.novos.push(item.nota_itens)
 			}
 			
@@ -145,17 +145,36 @@ class NotaFiscalService {
 		try {
 			await notaFiscalModel.update(validPayload.value, {where: {id: notaFiscal.id}}, { transaction })
 
-			const insert = [
-				itensFiscalModel.bulkCreate(itens.salvos, { transaction: transaction, updateOnDuplicate: ["id"] }),
-				itensFiscalModel.bulkCreate(itens.novos, { transaction }),
-				itensFiscalModel.destroy({where: 
-					{id: itens.deletados }
-				}, { transaction })
+			const persistente = []
+			const poodem_ser_alterados = [
+				"cfop",
+				"cst",
+				"quantidade",
+				"valor",
+				"desconto",
+				"acrescimo",
+				"subtotal",
+				"total",
+				"aliq_icms",
+				"base_icms",
+				"valor_icms",
+				"aliq_subst",
+				"base_subst",
+				"aliq_ipi",
+				"base_ipi"
 			]
 
-			return Promise.all(insert)
+			persistente.push(itens.deletados.length > 0  ? itensFiscalModel.destroy({where: {id: itens.deletados } }, { transaction }) : null)
+			persistente.push(itens.novos.length > 0 ? itensFiscalModel.bulkCreate(itens.novos, { transaction }) : null)
+			persistente.push(itens.salvos.length > 0 ? itensFiscalModel.bulkCreate(itens.salvos, { transaction: transaction, updateOnDuplicate: poodem_ser_alterados }) : null)
+
+			// console.log("aqui >>>",persistente)
+			// console.log("SALVOS >>>> ",itens.salvos)
+			// console.log("NOVOS >>>>", itens.novos)
+			// console.log("DELETEADOS >>>", itens.deletados)			
+
+			return Promise.all(persistente)
 			.then((res)=> {
-				console.log(res)
 				transaction.commit()
 				return notaFiscal
 			})
@@ -167,6 +186,25 @@ class NotaFiscalService {
 
 	async deleting(notaFiscalId) {
 		return await notaFiscalModel.destroy({ where: {id: notaFiscalId}})
+	}
+}
+
+class Produto {
+
+	constructor() {
+		this.observers = [];
+	}
+
+	subscribe(f) {
+		this.observers.push(f);
+	}
+
+	unsubscribe(f) {
+		this.observers = this.observers.filter(subscriber => subscriber !== f);
+	}
+
+	notify(data) {
+		this.observers.forEach(observer => observer(data));
 	}
 }
 
