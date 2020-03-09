@@ -7,7 +7,7 @@ const server = require('http').Server(app)
 const rotaPessoa = require('./modules/pessoa/pessoa.router')
 const rotaGrupo = require('./modules/grupo/grupo.router')
 const rotaSubgrupo = require('./modules/subgrupo/subgrupo.router')
-const rotaProduto = require('./modules/produto/produto.router') 
+const rotaProduto = require('./modules/produto/produto.router')
 const rotaTributacao = require('./modules/tributacao/tributacao.router')
 const rotaNotafiscal = require('./modules/notaFiscal/notaFiscal.router')
 
