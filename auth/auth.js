@@ -5,16 +5,11 @@ function readAuthorization(req, res, next) {
     const bearerHeader = req.headers.authorization
     if (typeof bearerHeader === 'undefined') {
         new Response(res).unauthorized()
-
         return;
     }
-
+    
     req.token = bearerHeader.split(' ')[1]
-    next()
-
-}
-
-async function readToken(req, res, next) {
+    
     jwt.verify(req.token, process.env.JWT_SECRET_KEY, async function(
         err,
         decodedToken
@@ -27,10 +22,8 @@ async function readToken(req, res, next) {
             }
             return
         }
-
         req.credenciais = decodedToken
-
-        const usuario = await usuarioModel.findByPk(decodedToken.UsuarioId)
+        const usuario = 10
 
         if (!usuario) {
             new Response(res).unauthorized()
@@ -43,14 +36,19 @@ async function readToken(req, res, next) {
     } )
 }
 
+
 async function login(req, res) {
+
+    console.log(req.body)
     let {usuario, senha} = req.body
-
-    const senhaExemplo = 'user@test.com'
-    const senhaExemplo = '123456'
-
+    const usuarioExemplo = 'user@test.com'
+    const senhaExemplo = 123456
+    
     loginValido = usuario === usuarioExemplo && senha === senhaExemplo
-    if (loginValido) {
+
+    console.log(loginValido)
+    
+    if (!loginValido) {
         new Response(res).unauthorized()
         return
     }
@@ -60,24 +58,16 @@ async function login(req, res) {
         usuarioEmail: usuarioExemplo
     }
 
-    jwt.sign(loginData, process.env.JWT_SECRET_KEY, {algorithm: 'RS256'}, function(err, token){
+    jwt.sign(loginData, process.env.JWT_SECRET_KEY, async function(err, token) {
         if (err) {
             return new Response(res).preConditionFailed()
         }
+
         new Response(res).success(token)
     })
 }
 
-const routerLogin = require('express').Router()
-routerLogin.post('/login', login)
-
-function route(app) {
-    app.use(routerLogin)
-}
-
 module.exports = {
     readAuthorization,
-    readToken,
-    login,
-    route
+    login
 }
