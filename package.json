@@ -27,6 +27,7 @@
     "morgan": "^1.9.1",
     "mysql2": "^1.7.0",
     "sequelize": "^5.19.6",
+    "cors": "^2.8.5",
     "sequelize-cli": "^5.5.1"
   }
 }

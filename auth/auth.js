@@ -1,7 +1,9 @@
 const jwt = require('jsonwebtoken')
 const Response = require('../core/response')
+const userModel = require('../dao/models/user.model')
 
 function readAuthorization(req, res, next) {
+    console.log(req.headers.authorization)
     const bearerHeader = req.headers.authorization
     if (typeof bearerHeader === 'undefined') {
         new Response(res).unauthorized()
@@ -14,6 +16,7 @@ function readAuthorization(req, res, next) {
         err,
         decodedToken
     ){
+        
         if (err) {
             if (err.name === 'tokenExpiredError') {
                 new Response(res).unauthorized('Sua Sessão Expirou!')
@@ -23,14 +26,13 @@ function readAuthorization(req, res, next) {
             return
         }
         req.credenciais = decodedToken
-        const usuario = 10
+        const usuario = decodedToken.usuarioId
 
         if (!usuario) {
             new Response(res).unauthorized()
             return
         }
-
-        req.credenciais.usuario = usuario
+        // req.credenciais.usuario = usuario
         next()
 
     } )
@@ -39,14 +41,21 @@ function readAuthorization(req, res, next) {
 
 async function login(req, res) {
 
-    console.log(req.body)
     let {usuario, senha} = req.body
-    const usuarioExemplo = 'user@test.com'
-    const senhaExemplo = 123456
-    
-    loginValido = usuario === usuarioExemplo && senha === senhaExemplo
 
-    console.log(loginValido)
+    // new Response(res).unauthorized()
+    // return
+
+    const user = await userModel.findOne({where: {
+        email: usuario
+    }})
+
+    if (!user) {
+        new Response(res).unauthorized()
+        return
+    }
+
+    loginValido = senha === user.password
     
     if (!loginValido) {
         new Response(res).unauthorized()
@@ -54,8 +63,11 @@ async function login(req, res) {
     }
 
     let loginData = {
-        usuarioId: 10,
-        usuarioEmail: usuarioExemplo
+        usuarioId: user.id,
+        usuarioEmail: user.email,
+        // expiresIn : 60,
+        // exp: 70000 * 1000
+        exp: Math.floor(Date.now() / 1000) + (60)
     }
 
     jwt.sign(loginData, process.env.JWT_SECRET_KEY, async function(err, token) {
