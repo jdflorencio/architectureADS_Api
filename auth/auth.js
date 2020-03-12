@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken')
 const Response = require('../core/response')
 const userModel = require('../dao/models/user.model')
+const bcrypt = require('bcrypt');
 
 function readAuthorization(req, res, next) {
     console.log(req.headers.authorization)
@@ -11,7 +12,6 @@ function readAuthorization(req, res, next) {
     }
     
     req.token = bearerHeader.split(' ')[1]
-    
     jwt.verify(req.token, process.env.JWT_SECRET_KEY, async function(
         err,
         decodedToken
@@ -38,13 +38,8 @@ function readAuthorization(req, res, next) {
     } )
 }
 
-
 async function login(req, res) {
-
     let {usuario, senha} = req.body
-
-    // new Response(res).unauthorized()
-    // return
 
     const user = await userModel.findOne({where: {
         email: usuario
@@ -56,7 +51,7 @@ async function login(req, res) {
     }
 
     loginValido = senha === user.password
-    
+
     if (!loginValido) {
         new Response(res).unauthorized()
         return
@@ -65,9 +60,9 @@ async function login(req, res) {
     let loginData = {
         usuarioId: user.id,
         usuarioEmail: user.email,
-        // expiresIn : 60,
+        expiresIn : Math.floor(Date.now() / 1000) + (60)
         // exp: 70000 * 1000
-        exp: Math.floor(Date.now() / 1000) + (60)
+        // exp: Math.floor(Date.now() / 1000) + (60)
     }
 
     jwt.sign(loginData, process.env.JWT_SECRET_KEY, async function(err, token) {
