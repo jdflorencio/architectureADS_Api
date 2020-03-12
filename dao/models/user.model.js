@@ -2,6 +2,7 @@
 
 const { Sequelize, connection } = require('../connection')
 const Model = Sequelize.Model
+const roleModel = require('./user_role.model')
 
 class User extends Model { }
 User.init({
@@ -42,5 +43,12 @@ User.init({
   },
   underscored: false
 })
+
+User.hasMany(roleModel, {
+  foreignKey: "userId",
+  onDelete: 'CASCATE',
+  onUpdate: 'CASCATE'
+})
+
 
 module.exports = User;
