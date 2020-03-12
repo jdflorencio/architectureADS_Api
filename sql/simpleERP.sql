@@ -11,6 +11,19 @@ CREATE TABLE `user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+DROP TABLE IF EXISTS `user_role`;
+
+CREATE TABLE `user_role` (
+  `id` int(11) NOT NULL AUTO_INCREMENT, 
+  userId int(11) NOT NULL, 
+  role varchar(10) DEFAULT  NULL, 
+  PRIMARY KEY(`id`),
+  CONSTRAINT `role_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+
+
+)ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+
 DROP TABLE IF EXISTS `pessoa`;
 
 CREATE TABLE `pessoa` (
