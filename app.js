@@ -19,9 +19,9 @@ app.use(cors())
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
-
+ 
 app.use('/api', rotaLogin)
-// app.use(authorization.readAuthorization)
+app.use(authorization.readAuthorization)
 app.use('/api', rotaPessoa)
 app.use('/api', rotaGrupo)
 app.use('/api', rotaSubgrupo)
