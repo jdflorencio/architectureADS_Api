@@ -3,7 +3,6 @@ const controller = require('./pessoa.controller')
 const mid = require('./pessoa');
 let permissao = require('./pessoa.consts').module
 
-
 router.get('/clientefilter/:data', mid.middleware(permissao.acessar),async (req, res) => { await controller.filter(req, res) })
 
 router.get('/cliente',  mid.middleware(permissao.acessar),async (req, res) => { await controller.findAll(req, res) })
