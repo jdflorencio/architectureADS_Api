@@ -1,4 +1,5 @@
 const pessoaService = require('./pessoa.service')
+const Response = require('../../core/response')
 class PessoaController {
 	constructor() {
 		this.service = pessoaService
@@ -7,33 +8,30 @@ class PessoaController {
    async save(req, res) {		
 		try {
 			const result = await this.service.save(req.body);
-			res.json({sucesso: true, data: result})
+			new Response(res).success(result)			
 
 		} catch (error) {
-			res.status(409).json({sucesso: false, mensagem: error.mensage, erro: error.error || []})
+			new Response(res).preConditionFailed()
 		}
 	}
 
 	async update(req, res) {
 		try {
-		
 			const result = await this.service.update(req.body);
-			res.json({sucesso: true, id: result.id , msg: 'Cliente Atualizado com sucesso!'})
+			new Response(res).success(result)			
 
 		} catch (error) {
-			res.status(409).json({sucesso: false, error})
+			new Response(res).preConditionFailed()
 		}
 	}
 
   async findOne(req, res) {
 		try {
-			
 			const result = await this.service.findById(+req.params.id);
-			res.json({sucesso: true, result})
+			new Response(res).success(result)
 
     } catch (error) {
-			res.status(409).json({sucesso: false, error})
-
+			new Response(res).preConditionFailed()
 		}
 	}
 
@@ -41,25 +39,23 @@ class PessoaController {
 		try {
 			
 			const result = await this.service.findData(req.params.data);
-			res.json({sucesso: true, result})
+			new Response(res).success(result)			
 
     } catch (error) {
-			res.status(409).json({sucesso: false, error})
-
+			new Response(res).preConditionFailed()
 		}
 	}
 	
   async findAll(req, res) {
     try {
-			const result = await this.service.findAll();
-			res.json({sucesso: true, result})
+			const result = await this.service.findAll()
+			new Response(res).success(result)			
 
     } catch (error) {
-			res.status(409).json({sucesso: false,  error})
-
+			new Response(res).preConditionFailed()
 		}
 	}
-	
+
 	async delete(req, res) {
 		try {
 			const { id } = req.params
@@ -67,7 +63,7 @@ class PessoaController {
 			res.status(200).json({sucesso: true, data: `Cliente codigo: ${id} removido Com sucesso!`})
 
 		} catch ( error ) {
-			res.status(409).json({sucesso: false, erro: error})
+			new Response(res).preConditionFailed()
 		}	
 	}
 }

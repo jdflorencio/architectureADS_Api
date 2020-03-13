@@ -1,4 +1,5 @@
 const grupoService = require('./grupo.service')
+const Response = require('../../core/response')
 class GrupoController {
 	constructor() {
 		this.service = grupoService
@@ -41,7 +42,8 @@ class GrupoController {
     try {
 			console.log('aqui');
 			const result = await this.service.findAll();
-			res.json({sucesso: true, result})
+			new Response.sucesso(result)
+			return
 
     } catch (error) {
 			res.status(409).json({sucesso: false,  error})
