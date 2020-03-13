@@ -44,7 +44,7 @@ class Response {
     }
   
     forbidden(mensagem) {
-      this.response.status(Response.HTTP_STATUS().UNAUTHORIZED).json({
+      this.response.status(Response.HTTP_STATUS().FORBIDDEN).json({
         mensagem:
           mensagem ||
           'Desculpe, você não tem permissão para acessar esta rotina. Contate o administrador do sistema',

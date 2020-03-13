@@ -2,7 +2,7 @@ const router = require('express').Router()
 const controller = require('./tributacao.controller')
 const mid = require('../../core/permissions')
 
-let permissao = require('./tributacao.consts').role
+const permissao = require('./tributacao.consts').module
 
 router.get('/tributacao', mid.middleware(permissao.acessar), async (req, res) => { await controller.findAll(req, res) })
 router.get('/tributacao/:id', mid.middleware(permissao.acessarId), async (req, res) => { await controller.findOne(req, res) })
