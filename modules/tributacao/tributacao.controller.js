@@ -10,8 +10,6 @@ class TributacaoController {
 		try {
 			const result = await this.service.save(req.body);
 			new Response(res).success(result)
-
-
 		} catch (error) {
 			new Response(res).preConditionFailed()
 

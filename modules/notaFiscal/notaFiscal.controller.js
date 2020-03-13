@@ -1,5 +1,5 @@
 const notaFiscalService = require('./notaFiscal.service')
-const Respose = require('../../core/response')
+const Response = require('../../core/response')
 class NotaFiscalController {
 	constructor() {
 		this.service = notaFiscalService
@@ -38,6 +38,8 @@ class NotaFiscalController {
 
 	async findAll(req, res) {
 		try {
+
+			console.log('<<< TESTE >>')
 			const result = await this.service.findAll(+req.query.pagina);
 			new Response(res).success(result)
 
