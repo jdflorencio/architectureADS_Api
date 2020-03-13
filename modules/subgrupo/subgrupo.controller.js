@@ -1,62 +1,69 @@
 const subgrupoService = require('./subgrupo.service')
+const Response = require('../../core/response')
 class SubGrupoController {
 	constructor() {
 		this.service = subgrupoService
 	}
 
-   async save(req, res) {		
+	async save(req, res) {
 		try {
 			const result = await this.service.save(req.body);
-			res.json({sucesso: true, data: result, msg: "Subgrupo Adicionando com sucesso!"})
+			new Response(res).success(result)
+
 
 		} catch (error) {
-			res.status(409).json({sucesso: false, mensagem: error.mensage, erro: error.error || []})
+			new Response(res).preConditionFailed()
+
 		}
 	}
 
 	async update(req, res) {
 		try {
-		
+
 			const result = await this.service.update(req.body);
-			res.json({sucesso: true, id: result.id , msg: 'SubGrupo Atualizado com sucesso!'})
+			new Response(res).success(result)
 
 		} catch (error) {
-			res.status(409).json({sucesso: false, error})
+			new Response(res).preConditionFailed()
 		}
 	}
 
-  async findOne(req, res) {
+	async findOne(req, res) {
 		try {
-			
+
 			const result = await this.service.findById(+req.params.id);
-			res.json({sucesso: true, result})
+			new Response(res).success(result)
 
-    } catch (error) {
-			res.status(409).json({sucesso: false, error})
+
+		} catch (error) {
+			new Response(res).preConditionFailed()
+
 
 		}
 	}
-	
-  async findAll(req, res) {
-    try {
+
+	async findAll(req, res) {
+		try {
 			const result = await this.service.findAll();
-			res.json({sucesso: true, result})
+			new Response(res).success(result)
 
-    } catch (error) {
-			res.status(409).json({sucesso: false,  error})
+
+		} catch (error) {
+			new Response(res).preConditionFailed()
 
 		}
 	}
-	
+
 	async delete(req, res) {
 		try {
 			const { id } = req.params
-			 await this.service.deleting(id)
-			res.status(200).json({sucesso: true, data: `SubGrupo codigo: ${id} removido Com sucesso!`})
+			await this.service.deleting(id)
+			res.status(200).json({ sucesso: true, data: `SubGrupo codigo: ${id} removido Com sucesso!` })
 
-		} catch ( error ) {
-			res.status(409).json({sucesso: false, erro: error})
-		}	
+		} catch (error) {
+			new Response(res).preConditionFailed()
+
+		}
 	}
 }
 
