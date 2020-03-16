@@ -14,7 +14,8 @@ class PessoaService {
         'id',
         'tipo',
         'nome',
-        'nome_fantasia',
+		'nome_fantasia',
+		'log_atualizacao'
 
 		]})
 	}
