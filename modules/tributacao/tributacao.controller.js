@@ -54,7 +54,7 @@ class TributacaoController {
 		try {
 			const { id } = req.params
 			await this.service.deleting(id)
-			res.status(200).json({ sucesso: true, data: `Tributacao codigo: ${id} removido Com sucesso!` })
+			new Response(res).success(id,`Tributacao codigo: ${id} removido Com sucesso!`)
 
 		} catch (error) {
 			new Response(res).preConditionFailed()

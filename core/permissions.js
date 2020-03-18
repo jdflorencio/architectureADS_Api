@@ -1,3 +1,4 @@
+
 const roleModel = require('../dao/models/user_role.model')
 const { Sequelize } = require('../dao/connection')
 const Response = require('./response')

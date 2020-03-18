@@ -19,7 +19,7 @@ class GrupoController {
 		try {
 
 			const result = await this.service.update(req.body);
-			res.json({ sucesso: true, id: result.id, msg: 'Grupo Atualizado com sucesso!' })
+			new Response(res).success(result)
 
 		} catch (error) {
 			new Response(res).preConditionFailed()
@@ -41,11 +41,11 @@ class GrupoController {
 	async findAll(req, res) {
 		try {
 			const result = await this.service.findAll();
-			new Response.sucesso(result)
+
+			new Response(res).success(result)
 
 		} catch (error) {
 			new Response(res).preConditionFailed()
-
 		}
 	}
 
@@ -53,7 +53,7 @@ class GrupoController {
 		try {
 			const { id } = req.params
 			await this.service.deleting(id)
-			res.status(200).json({ sucesso: true, data: `Grupo codigo: ${id} removido Com sucesso!` })
+			new Response(res).success(id, `Grupo codigo: ${id} removido Com sucesso!`)
 
 		} catch (error) {
 			res.status(409).json({ sucesso: false, erro: error })
