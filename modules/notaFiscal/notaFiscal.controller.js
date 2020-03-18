@@ -52,10 +52,10 @@ class NotaFiscalController {
 		try {
 			const { id } = req.params
 			await this.service.deleting(id)
-			res.status(200).json({ sucesso: true, data: `NotaFiscal codigo: ${id} removido Com sucesso!` })
+			new Response(res).success(id, `NotaFiscal codigo: ${id} removido Com sucesso!`)
 
 		} catch (error) {
-			res.status(409).json({ sucesso: false, erro: error })
+			new Response(res).preConditionFailed(`Erro ao executar a ação ${error.mensagem}`)
 		}
 	}
 }
