@@ -47,7 +47,6 @@ class SubGrupoController {
 			const result = await this.service.findAll();
 			new Response(res).success(result)
 
-
 		} catch (error) {
 			new Response(res).preConditionFailed()
 
@@ -58,7 +57,8 @@ class SubGrupoController {
 		try {
 			const { id } = req.params
 			await this.service.deleting(id)
-			res.status(200).json({ sucesso: true, data: `SubGrupo codigo: ${id} removido Com sucesso!` })
+			new Response(res).success(id, `SubGrupo codigo: ${id} removido Com sucesso!`)
+
 
 		} catch (error) {
 			new Response(res).preConditionFailed()
