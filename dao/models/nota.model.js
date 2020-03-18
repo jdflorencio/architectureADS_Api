@@ -9,6 +9,9 @@ Nota.init({
         primaryKey: true,
         autoIncrement: true
     },
+    userId: {
+        type: Sequelize.INTEGER,
+      },
     pessoaId: {
         type: Sequelize.INTEGER
     },

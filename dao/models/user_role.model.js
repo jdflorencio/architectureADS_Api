@@ -12,7 +12,7 @@ UserRole.init({
   },
   userId: {
     type: Sequelize.STRING,
-    allowNull: true
+    allowNull: false
   },
   role: {
     type: Sequelize.STRING,

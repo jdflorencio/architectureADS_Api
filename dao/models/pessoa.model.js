@@ -14,6 +14,9 @@ Pessoa.init({
     primaryKey: true,
     autoIncrement: true
   },
+  userId: {
+    type: Sequelize.INTEGER,
+  },
   tipo: {
     type: Sequelize.ENUM,
     values: ['pf', 'pj']

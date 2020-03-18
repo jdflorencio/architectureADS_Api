@@ -15,11 +15,11 @@ DROP TABLE IF EXISTS `user_role`;
 
 CREATE TABLE `user_role` (
   `id` int(11) NOT NULL AUTO_INCREMENT, 
-  userId int(11) NOT NULL, 
+  `userId` int(11) NOT NULL, 
   role varchar(10) DEFAULT  NULL, 
   PRIMARY KEY(`id`),
-  CONSTRAINT `role_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-
+  CONSTRAINT `role_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
 
 )ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
@@ -28,6 +28,7 @@ DROP TABLE IF EXISTS `pessoa`;
 
 CREATE TABLE `pessoa` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` int(11),
   `tipo` enum('pf','pj') NOT NULL,
   `nome` varchar(60) DEFAULT NULL,
   `sexo` varchar(9) DEFAULT NULL,
@@ -43,13 +44,15 @@ CREATE TABLE `pessoa` (
   `log_criacao` datetime DEFAULT NULL,
   `log_atualizacao` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `log_pct_usuario` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 DROP TABLE IF EXISTS `endereco`;
 
 CREATE TABLE `endereco` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` int(11),
   `pessoaId` int(11) NOT NULL,
   `endereco` varchar(255) DEFAULT NULL,
   `bairro` varchar(60) DEFAULT NULL,
@@ -62,37 +65,42 @@ CREATE TABLE `endereco` (
   `log_pct_usuario` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `pessoaId` (`pessoaId`),
-  CONSTRAINT `endereco_ibfk_1` FOREIGN KEY (`pessoaId`) REFERENCES `pessoa` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `endereco_ibfk_1` FOREIGN KEY (`pessoaId`) REFERENCES `pessoa` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=latin1;
 
 DROP TABLE IF EXISTS `telefone`;
 
 CREATE TABLE `telefone` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` int(11),
   `pessoaId` int(11) NOT NULL,
   `telefone` varchar(255) DEFAULT NULL,
   `tipo` varchar(255) DEFAULT NULL,
- 
-  PRIMARY KEY (`id`),
+   PRIMARY KEY (`id`),
   KEY `pessoaId` (`pessoaId`),
   CONSTRAINT `telefone_ibfk_1` FOREIGN KEY (`pessoaId`) REFERENCES `pessoa` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=latin1;
 
 DROP TABLE IF EXISTS `grupo`;
 
 CREATE TABLE `grupo` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userId`, int(11),
   `descricao` varchar(30) DEFAULT NULL,
   `log_criacao` datetime DEFAULT NULL,
   `log_atualizacao` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `log_pct_usuario` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 DROP TABLE IF EXISTS `subgrupo`;
 
 CREATE TABLE `subgrupo` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` int(11),
   `grupoId` int(11) DEFAULT NULL,
   `descricao` varchar(30) DEFAULT NULL,
   `log_criacao` datetime DEFAULT NULL,
@@ -100,13 +108,15 @@ CREATE TABLE `subgrupo` (
   `log_pct_usuario` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `grupos_ibfk_1` (`grupoId`),
-  CONSTRAINT `grupos_ibfk_1` FOREIGN KEY (`grupoId`) REFERENCES `grupo` (`id`)
+  CONSTRAINT `grupos_ibfk_1` FOREIGN KEY (`grupoId`) REFERENCES `grupo` (`id`),
+  FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 DROP TABLE IF EXISTS `tributacao`;
 
 CREATE TABLE `tributacao` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` int(11),
   `descricao` varchar(30) DEFAULT NULL,
   `cfop_dentro_estado` varchar(4),
 	`cfop_fora_estado` varchar(4),
@@ -130,13 +140,15 @@ CREATE TABLE `tributacao` (
   `log_criacao` datetime DEFAULT NULL,
   `log_atualizacao` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `log_pct_usuario` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 DROP TABLE IF EXISTS `produto`;
 
 CREATE TABLE `produto` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` int(11),
   `referencia` int(11) DEFAULT NULL,
   `grupoId` int(11) DEFAULT NULL,
   `subgrupoId` int(11) DEFAULT NULL,
@@ -161,13 +173,15 @@ CREATE TABLE `produto` (
   KEY `produto_ibfk_3` (`tributacaoId`),
   CONSTRAINT `produto_ibfk_1` FOREIGN KEY (`grupoId`) REFERENCES `grupo` (`id`),
   CONSTRAINT `produto_ibfk_2` FOREIGN KEY (`subgrupoId`) REFERENCES `subgrupo` (`id`),
-  CONSTRAINT `produto_ibfk_3` FOREIGN KEY (`tributacaoId`) REFERENCES `tributacao` (`id`)
+  CONSTRAINT `produto_ibfk_3` FOREIGN KEY (`tributacaoId`) REFERENCES `tributacao` (`id`),
+  FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 DROP TABLE IF EXISTS `nota`;
 
 CREATE TABLE `nota` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` int(11),  
   `pessoaId` int(11) DEFAULT NULL,
   `numero` int(11) DEFAULT NULL,
   `chave_nfe` varchar(44) DEFAULT NULL,
@@ -191,7 +205,8 @@ CREATE TABLE `nota` (
   `log_pct_usuario` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `nota_ibfk_1` (`pessoaId`),
-  CONSTRAINT `nota_ibfk_1` FOREIGN KEY (`pessoaId`) REFERENCES `pessoa` (`id`)
+  CONSTRAINT `nota_ibfk_1` FOREIGN KEY (`pessoaId`) REFERENCES `pessoa` (`id`),
+  FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 DROP TABLE IF EXISTS `nota_itens`;
@@ -223,3 +238,14 @@ CREATE TABLE `nota_itens` (
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
 
+DROP TABLE IF EXISTS `log`;
+
+CREATE TABLE `log` (
+  `id` int(11) AUTO_INCREMENT, 
+  `userId` int(11), 
+  `acao` enum('CADASTRAR','EDITAR','ATUALIZAR', 'DELETAR') DEFAULT NULL,
+  `registro` varchar(50),
+  `log_atualizacao` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
+)ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
