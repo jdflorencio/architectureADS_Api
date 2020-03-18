@@ -87,7 +87,7 @@ Nota.init({
 Nota.hasMany(NotaItens, {
     foreignKey: 'notaId',
     onDelete: 'CASCADE',
-    onUpdate: 'CASCADE'
+    onUpdate: 'NO ACTION'
 });
 
 
