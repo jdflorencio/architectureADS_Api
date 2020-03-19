@@ -2,7 +2,8 @@ const jwt = require('jsonwebtoken')
 const Response = require('../core/response')
 const userModel = require('../dao/models/user.model')
 const roleModel = require('../dao/models/user_role.model')
-// const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt');
+const saltRounds = 10
 
 function readAuthorization(req, res, next) {
     const bearerHeader = req.headers.authorization
@@ -58,7 +59,14 @@ async function login(req, res) {
         return
     }
 
-    loginValido = senha === user.password
+    const loginValido =  await bcrypt.compare(senha, user.password)
+    console.log('>>>>',loginValido)
+
+    
+
+    // loginValido = senha === user.password
+
+
 
     if (!loginValido) {
         new Response(res).unauthorized()
