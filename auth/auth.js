@@ -60,13 +60,6 @@ async function login(req, res) {
     }
 
     const loginValido =  await bcrypt.compare(senha, user.password)
-    console.log('>>>>',loginValido)
-
-    
-
-    // loginValido = senha === user.password
-
-
 
     if (!loginValido) {
         new Response(res).unauthorized()
