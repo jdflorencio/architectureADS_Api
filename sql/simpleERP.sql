@@ -66,7 +66,7 @@ CREATE TABLE `endereco` (
   PRIMARY KEY (`id`),
   KEY `pessoaId` (`pessoaId`),
   CONSTRAINT `endereco_ibfk_1` FOREIGN KEY (`pessoaId`) REFERENCES `pessoa` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
+  CONSTRAINT `endereco_ibfk_2` FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=latin1;
 
 DROP TABLE IF EXISTS `telefone`;
@@ -79,8 +79,8 @@ CREATE TABLE `telefone` (
   `tipo` varchar(255) DEFAULT NULL,
    PRIMARY KEY (`id`),
   KEY `pessoaId` (`pessoaId`),
-  CONSTRAINT `telefone_ibfk_1` FOREIGN KEY (`pessoaId`) REFERENCES `pessoa` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-  FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
+  CONSTRAINT `telefone_ibfk_1` FOREIGN KEY (`pessoaId`) REFERENCES `pessoa` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `telefone_ibfk_2` FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=latin1;
 
 DROP TABLE IF EXISTS `grupo`;
@@ -168,13 +168,10 @@ CREATE TABLE `produto` (
   `log_atualizacao` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `log_pct_usuario` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `produto_ibfk_1` (`grupoId`),
-  KEY `produto_ibfk_2` (`subgrupoId`),
-  KEY `produto_ibfk_3` (`tributacaoId`),
   CONSTRAINT `produto_ibfk_1` FOREIGN KEY (`grupoId`) REFERENCES `grupo` (`id`),
   CONSTRAINT `produto_ibfk_2` FOREIGN KEY (`subgrupoId`) REFERENCES `subgrupo` (`id`),
   CONSTRAINT `produto_ibfk_3` FOREIGN KEY (`tributacaoId`) REFERENCES `tributacao` (`id`),
-  FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
+  CONSTRAINT `produto_ibfk_4` FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 DROP TABLE IF EXISTS `nota`;
@@ -206,7 +203,7 @@ CREATE TABLE `nota` (
   PRIMARY KEY (`id`),
   KEY `nota_ibfk_1` (`pessoaId`),
   CONSTRAINT `nota_ibfk_1` FOREIGN KEY (`pessoaId`) REFERENCES `pessoa` (`id`),
-  FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
+  CONSTRAINT `nota_ibfk_2` FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 DROP TABLE IF EXISTS `nota_itens`;
@@ -247,5 +244,5 @@ CREATE TABLE `log` (
   `registro` varchar(50),
   `log_atualizacao` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
+  CONSTRAINT `nota_itens_ibfk_2` FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
 )ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;

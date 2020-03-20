@@ -96,7 +96,7 @@ class PessoaService {
 				throw error;
 			})
 		} catch (error) {
-			console.log(errors)
+
 			transaction.rollback()
 			throw error
 		}
