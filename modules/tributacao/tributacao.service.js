@@ -42,6 +42,7 @@ async save(payload) {
 	async update(payload) {
 				
 		let validPayload = helper.isValidUpdate(payload)
+		console.log(validPayload)
 				
 		if (validPayload.error) {
 			return Promise.reject({

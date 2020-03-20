@@ -74,7 +74,7 @@ class ProdutoService {
 			return produto
 
 		} catch (error) {	
-			console.log(error)
+	
 			throw error
 		}
 	}
@@ -98,15 +98,18 @@ class ProdutoService {
 			return produto.id
 
 		} catch ( error ) {		
-			console.log(error)	
+			
 			transaction.rollback()
 			throw error
 		}
 	}
 
 	async update(payload) {
+		
 		let validPayload = helper.isValidUpdate(payload)
+		
 
+		
 		if (validPayload.error) {
 			return Promise.reject({
 				message         : "Dados de entrada inválidos, verifique os campos obrigatorios",
@@ -115,13 +118,14 @@ class ProdutoService {
 		}
 		
 		let produto = await produtoModel.findByPk(validPayload.value.id)
-
+		
 		if(!produto) {
 			return Promise.reject({
 				message: "Produto não encontrada.",
 				error: ["Produto não encontrada"]
 			})
 		}
+		
 
 		const transaction = await connection.transaction({ isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.READ_COMMITTED })
 

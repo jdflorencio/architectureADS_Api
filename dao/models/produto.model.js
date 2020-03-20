@@ -10,6 +10,9 @@ Produto.init({
         primaryKey: true,
         autoIncrement: true
     },
+    userId:{
+        type: Sequelize.INTEGER,
+    },    
     referencia: {
         type: Sequelize.INTEGER     
     },

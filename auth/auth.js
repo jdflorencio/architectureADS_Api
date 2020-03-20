@@ -30,11 +30,18 @@ function readAuthorization(req, res, next) {
         req.credenciais = decodedToken
         const usuario = decodedToken.usuarioId
 
+        console.log('usuario >>',usuario)
+        
         if (!usuario) {
             new Response(res).unauthorized()
             return
         }
         // req.credenciais.usuario = usuario
+        console.log('aqui >>>')
+        if (req.body) {
+            req.body.userId = usuario
+        }        
+
         next()
 
     } )
