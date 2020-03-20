@@ -132,7 +132,7 @@ CREATE TABLE `tributacao` (
   `aliq_icms_compra_fora_estado` decimal(9,4) DEFAULT 0 NOT NULL,
   `aliq_icms_reducao_compra` decimal(9,4) DEFAULT 0 NOT NULL,
   `cst_base_compra` varchar(4) DEFAULT NULL,
-  `cst_pis_compra` decimal(4,0) DEFAULT 0 NOT NULL,
+  `cst_pis_compra` decimal(4,0) DEFAULT  NULL,
   `aliq_pis_compra` decimal(9,4) DEFAULT 0 NOT NULL,
   `cst_cofins_compra` varchar(4) DEFAULT NULL,
   `aliq_cofins_compra` decimal(9,4) DEFAULT 0 NOT NULL,

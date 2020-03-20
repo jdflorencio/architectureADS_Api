@@ -12,7 +12,7 @@ class SubGrupoController {
 
 
 		} catch (error) {
-			new Response(res).preConditionFailed()
+			new Response(res).preConditionFailed(error)
 
 		}
 	}
@@ -24,7 +24,7 @@ class SubGrupoController {
 			new Response(res).success(result)
 
 		} catch (error) {
-			new Response(res).preConditionFailed()
+			new Response(res).preConditionFailed(error)
 		}
 	}
 
@@ -36,7 +36,7 @@ class SubGrupoController {
 
 
 		} catch (error) {
-			new Response(res).preConditionFailed()
+			new Response(res).preConditionFailed(error)
 
 
 		}
@@ -48,7 +48,7 @@ class SubGrupoController {
 			new Response(res).success(result)
 
 		} catch (error) {
-			new Response(res).preConditionFailed()
+			new Response(res).preConditionFailed(error)
 
 		}
 	}
@@ -61,7 +61,7 @@ class SubGrupoController {
 
 
 		} catch (error) {
-			new Response(res).preConditionFailed()
+			new Response(res).preConditionFailed(error)
 
 		}
 	}

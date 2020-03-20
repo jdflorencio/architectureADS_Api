@@ -11,7 +11,8 @@ class TributacaoController {
 			const result = await this.service.save(req.body);
 			new Response(res).success(result)
 		} catch (error) {
-			new Response(res).preConditionFailed()
+
+			new Response(res).preConditionFailed(error)
 
 		}
 	}
@@ -19,11 +20,11 @@ class TributacaoController {
 	async update(req, res) {
 		try {
 
-			const result = await this.service.update(req.body);
+			const result = await this.service.update(req.body)
 			new Response(res).success(result)
 
 		} catch (error) {
-			new Response(res).preConditionFailed()
+			new Response(res).preConditionFailed(error)(error)
 
 		}
 	}
@@ -35,7 +36,7 @@ class TributacaoController {
 			new Response(res).success(result)
 
 		} catch (error) {
-			new Response(res).preConditionFailed()
+			new Response(res).preConditionFailed(error)(error)
 		}
 	}
 
@@ -45,7 +46,7 @@ class TributacaoController {
 			new Response(res).success(result)
 
 		} catch (error) {
-			new Response(res).preConditionFailed()
+			new Response(res).preConditionFailed(error)(error)
 
 		}
 	}
@@ -57,7 +58,7 @@ class TributacaoController {
 			new Response(res).success(id,`Tributacao codigo: ${id} removido Com sucesso!`)
 
 		} catch (error) {
-			new Response(res).preConditionFailed()
+			new Response(res).preConditionFailed(error)(error)
 		}
 	}
 }

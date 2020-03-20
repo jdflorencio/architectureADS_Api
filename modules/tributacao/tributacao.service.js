@@ -1,4 +1,4 @@
-const {Sequelize ,connection} = require('../../dao/connection')
+const { Sequelize, connection } = require('../../dao/connection')
 const tributacaoModel = require('../../dao/models/tributacao.model')
 const helper = require('./tributacao.helper')
 
@@ -13,17 +13,17 @@ class TributacaoService {
 	async findById(tributacaoId) {
 		return await tributacaoModel.findByPk(tributacaoId)
 	}
-	
 
-async save(payload) {
+	async save(payload) {
 		const transaction = await connection.transaction({ isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.READ_COMMITTED })
 
 		try {
-			let validPayload = helper.isValidCreate(payload)			
+			let validPayload = helper.isValidCreate(payload)
 			if (validPayload.error) {
+
 				return Promise.reject({
-					message         : "Dados de entrada inválidos, verifique os campos obrigatorios",
-					error           : validPayload.error.msg
+					message: "Dados de entrada inválidos, verifique os campos obrigatorios",
+					error: validPayload.error.msg
 				});
 			}
 			const modelBuild = tributacaoModel.build(validPayload.value)
@@ -32,28 +32,27 @@ async save(payload) {
 			transaction.commit()
 			return tributacao
 
-		} catch ( error ) {		
-			console.log(error)	
+		} catch (error) {
+
 			transaction.rollback()
 			throw error
 		}
 	}
 
 	async update(payload) {
-				
+
 		let validPayload = helper.isValidUpdate(payload)
-		console.log(validPayload)
-				
+
 		if (validPayload.error) {
 			return Promise.reject({
-				message         : "Dados de entrada inválidos, verifique os campos obrigatorios",
-				error           : validPayload.error.msg
+				message: "Dados de entrada inválidos, verifique os campos obrigatorios",
+				error: validPayload.error.msg
 			});
 		}
-		
+
 		let tributacao = await tributacaoModel.findByPk(validPayload.value.id)
 
-		if(!tributacao) {
+		if (!tributacao) {
 			return Promise.reject({
 				message: "Tributacao não encontrada.",
 				error: ["Tributacao não encontrada"]
@@ -63,20 +62,21 @@ async save(payload) {
 		const transaction = await connection.transaction({ isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.READ_COMMITTED })
 
 		try {
-			await tributacaoModel.update(validPayload.value, {where: {id: tributacao.id}}, { transaction })
+
+			await tributacaoModel.update(validPayload.value, { where: { id: tributacao.id } }, { transaction })
 
 			transaction.commit()
 
 			return tributacao
 
-		} catch ( error ) {
+		} catch (error) {
 			transaction.rollback()
-			return {status: 400, error}
+			return { status: 400, error }
 		}
 	}
 
 	async deleting(tributacaoId) {
-		return await tributacaoModel.destroy({ where: {id: tributacaoId}})
+		return await tributacaoModel.destroy({ where: { id: tributacaoId } })
 	}
 }
 

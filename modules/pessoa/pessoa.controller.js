@@ -11,7 +11,7 @@ class PessoaController {
 			new Response(res).success(result)
 
 		} catch (error) {
-			new Response(res).preConditionFailed()
+			new Response(res).preConditionFailed(error)
 		}
 	}
 
@@ -21,7 +21,7 @@ class PessoaController {
 			new Response(res).success(result)
 
 		} catch (error) {
-			new Response(res).preConditionFailed()
+			new Response(res).preConditionFailed(error)
 		}
 	}
 
@@ -31,7 +31,7 @@ class PessoaController {
 			new Response(res).success(result)
 
 		} catch (error) {
-			new Response(res).preConditionFailed()
+			new Response(res).preConditionFailed(error)
 		}
 	}
 
@@ -42,7 +42,7 @@ class PessoaController {
 			new Response(res).success(result)
 
 		} catch (error) {
-			new Response(res).preConditionFailed()
+			new Response(res).preConditionFailed(error)
 		}
 	}
 
@@ -52,7 +52,7 @@ class PessoaController {
 			new Response(res).success(result)
 
 		} catch (error) {
-			new Response(res).preConditionFailed()
+			new Response(res).preConditionFailed(error)
 		}
 	}
 
@@ -63,7 +63,7 @@ class PessoaController {
 			new Response(res).success(id, `Cliente codigo: ${id} removido Com sucesso!` )
 
 		} catch (error) {
-			new Response(res).preConditionFailed()
+			new Response(res).preConditionFailed(error)
 		}
 	}
 }

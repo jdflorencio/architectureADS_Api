@@ -11,13 +11,13 @@ function readAuthorization(req, res, next) {
         new Response(res).unauthorized()
         return;
     }
-    
+
     req.token = bearerHeader.split(' ')[1]
-    jwt.verify(req.token, process.env.JWT_SECRET_KEY, async function(
+    jwt.verify(req.token, process.env.JWT_SECRET_KEY, async function (
         err,
         decodedToken
-    ){
-        
+    ) {
+
         if (err) {
             if (err.name === 'tokenExpiredError') {
                 new Response(res).unauthorized('Sua Sessão Expirou!')
@@ -30,34 +30,31 @@ function readAuthorization(req, res, next) {
         req.credenciais = decodedToken
         const usuario = decodedToken.usuarioId
 
-        console.log('usuario >>',usuario)
-        
         if (!usuario) {
             new Response(res).unauthorized()
             return
         }
         // req.credenciais.usuario = usuario
-        console.log('aqui >>>')
+
         if (req.body) {
             req.body.userId = usuario
-        }        
+        }
 
         next()
 
-    } )
+    })
 }
 
 async function login(req, res) {
-    let {usuario, senha} = req.body
+    let { usuario, senha } = req.body
 
     const user = await userModel.findOne({
-        include : {
-            model : roleModel,
+        include: {
+            model: roleModel,
             attributes: ["role"]
         },
         where: {
-            email: usuario,
-            
+            email: usuario
         }
     })
 
@@ -66,7 +63,7 @@ async function login(req, res) {
         return
     }
 
-    const loginValido =  await bcrypt.compare(senha, user.password)
+    const loginValido = await bcrypt.compare(senha, user.password)
 
     if (!loginValido) {
         new Response(res).unauthorized()
@@ -77,12 +74,12 @@ async function login(req, res) {
         usuarioId: user.id,
         usuarioEmail: user.email,
         permissoes: [user.user_role],
-        expiresIn : Math.floor(Date.now() / 1000) + (60)
+        expiresIn: Math.floor(Date.now() / 1000) + (60)
         // exp: 70000 * 1000
         // exp: Math.floor(Date.now() / 1000) + (60)
     }
 
-    jwt.sign(loginData, process.env.JWT_SECRET_KEY, async function(err, token) {
+    jwt.sign(loginData, process.env.JWT_SECRET_KEY, async function (err, token) {
         if (err) {
             return new Response(res).preConditionFailed()
         }

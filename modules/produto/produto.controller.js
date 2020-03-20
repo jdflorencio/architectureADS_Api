@@ -12,7 +12,7 @@ class ProdutoController {
 			new Response(res).success(result)
 
 		} catch (error) {
-			new Response(res).preConditionFailed()
+			new Response(res).preConditionFailed(error)
 		}
 	}
 
@@ -24,7 +24,7 @@ class ProdutoController {
 
 
 		} catch (error) {
-			new Response(res).preConditionFailed()
+			new Response(res).preConditionFailed(error)
 		}
 	}
 
@@ -35,7 +35,7 @@ class ProdutoController {
 			new Response(res).success(result)
 
 		} catch (error) {
-			new Response(res).preConditionFailed()
+			new Response(res).preConditionFailed(error)
 
 		}
 	}
@@ -45,7 +45,7 @@ class ProdutoController {
 			const result = await this.service.findData(req.params.data);
 			new Response(res).success(result)
 		} catch (error) {
-			new Response(res).preConditionFailed()
+			new Response(res).preConditionFailed(error)
 
 		}
 	}
@@ -56,7 +56,7 @@ class ProdutoController {
 			new Response(res).success(result)
 
 		} catch (error) {
-			new Response(res).preConditionFailed()
+			new Response(res).preConditionFailed(error)
 		}
 	}
 
@@ -67,7 +67,7 @@ class ProdutoController {
 			new Response(res).success(id, `Produto codigo: ${id} removido Com sucesso!` )
 
 		} catch (error) {
-			new Response(res).preConditionFailed()
+			new Response(res).preConditionFailed(error)
 		}
 	}
 }

@@ -11,7 +11,7 @@ class GrupoController {
 			new Response(res).success(result)
 
 		} catch (error) {
-			new Response(res).preConditionFailed()
+			new Response(res).preConditionFailed(error)
 		}
 	}
 
@@ -22,7 +22,7 @@ class GrupoController {
 			new Response(res).success(result)
 
 		} catch (error) {
-			new Response(res).preConditionFailed()
+			new Response(res).preConditionFailed(error)
 		}
 	}
 
@@ -33,7 +33,7 @@ class GrupoController {
 			new Response(res).success(result)
 
 		} catch (error) {
-			new Response(res).preConditionFailed()
+			new Response(res).preConditionFailed(error)
 
 		}
 	}
@@ -45,7 +45,7 @@ class GrupoController {
 			new Response(res).success(result)
 
 		} catch (error) {
-			new Response(res).preConditionFailed()
+			new Response(res).preConditionFailed(error)
 		}
 	}
 
