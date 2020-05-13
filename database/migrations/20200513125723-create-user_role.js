@@ -21,7 +21,19 @@ module.exports = {
         allowNull: true,
         defaultValue: null,
         type: Sequelize.STRING(10)
-      }
+      },
+      log_criacao: {
+        allowNull: false, 
+        type: Sequelize.DATE
+      },
+      log_atualizacao: {
+        allowNull: false, 
+        type: Sequelize.DATE
+      },
+      log_pct_usuario: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      }      
     })
   },
 
