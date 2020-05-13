@@ -17,14 +17,6 @@ module.exports = {
         },
         type: Sequelize.INTEGER,
       },
-      pessoaId: {
-        allowNull: false,
-        references: {
-          model: 'pessoa',
-          key: 'id'
-        },
-        type: Sequelize.INTEGER,
-      },
       descricao: {
         type: Sequelize.STRING(30)
       },
