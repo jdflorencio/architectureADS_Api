@@ -23,7 +23,6 @@ CREATE TABLE `user_role` (
 
 )ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
-
 DROP TABLE IF EXISTS `pessoa`;
 
 CREATE TABLE `pessoa` (

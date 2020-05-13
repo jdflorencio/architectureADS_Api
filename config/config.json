@@ -7,5 +7,4 @@
         "dialect": "postgres",
         "timezone": "-03:00"
     }
-  
 }
