@@ -1,26 +1,11 @@
 {
     "development": {
-        "username":"root",
+        "username":"postgres",
         "password": "123",
         "database": "simpleERP",
-        "host": "172.24.0.2",
-        "dialect": "mysql",
-        "timezone": "-03:00"
-    },
-    "test": {
-        "username":"root",
-        "password": 123,
-        "database": "simpleERP",
-        "host": "172.24.0.2",
-        "dialect": "mysql",
-        "timezone": "-03:00"
-    },
-    "production": {
-        "username":"root",
-        "password": 123,
-        "database": "simpleERP",
-        "host": "172.24.0.2",
-        "dialect": "mysql",
+        "host": "127.0.0.1",
+        "dialect": "postgres",
         "timezone": "-03:00"
     }
+  
 }
