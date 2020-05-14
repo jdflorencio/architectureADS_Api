@@ -26,7 +26,7 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       numero: {
-        type: INTEGER,
+        type: Sequelize.INTEGER,
         valueDefault: 0
       },
       chave_nfe: {
