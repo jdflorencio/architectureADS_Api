@@ -62,7 +62,6 @@ async function login(req, res) {
         new Response(res).unauthorized()
         return
     }
-
     const loginValido = await bcrypt.compare(senha, user.password)
 
     if (!loginValido) {

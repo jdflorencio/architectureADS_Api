@@ -28,9 +28,6 @@ User.init({
   },
   log_atualizacao: {
     type: Sequelize.DATE
-  },
-  log_pct_usuario: {
-    type: Sequelize.INTEGER
   }
 }, {
   sequelize: connection,
