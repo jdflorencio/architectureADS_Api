@@ -41,9 +41,6 @@ module.exports = {
         allowNull: true,
         type: Sequelize.DECIMAL(9, 4)
       },
-
-
-
       cst_base_venda: {
         type: Sequelize.STRING(4),
         valueDefault: null
