@@ -4,18 +4,18 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('user_role', {
       id: {
-        allowNull: false, 
+        allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
       userId: {
-        allowNull: false, 
+        allowNull: false,
         references: {
-          model:'user',
+          model: 'user',
           key: 'id'
         },
-        type: Sequelize.INTEGER, 
+        type: Sequelize.INTEGER,
       },
       role: {
         allowNull: true,
@@ -23,17 +23,17 @@ module.exports = {
         type: Sequelize.STRING(10)
       },
       log_criacao: {
-        allowNull: false, 
+        allowNull: false,
         type: Sequelize.DATE
       },
       log_atualizacao: {
-        allowNull: false, 
+        allowNull: false,
         type: Sequelize.DATE
       },
       log_pct_usuario: {
         allowNull: false,
         type: Sequelize.INTEGER
-      }      
+      }
     })
   },
 
