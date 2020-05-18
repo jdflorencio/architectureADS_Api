@@ -1,9 +1,9 @@
 {
     "development": {
         "username":"postgres",
-        "password": "123",
-        "database": "simpleERP",
-        "host": "127.0.0.1",
+        "password": "d1345f4f32a6e3d72def503205e7ce17dba64e75e9c6662d721ad7f37e07b97e",
+        "database": "dbk309u1kpvnmv",
+        "host": "ec2-52-202-185-87.compute-1.amazonaws.com",
         "dialect": "postgres",
         "timezone": "-03:00"
     }
