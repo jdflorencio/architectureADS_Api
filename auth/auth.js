@@ -37,7 +37,7 @@ function readAuthorization(req, res, next) {
         // req.credenciais.usuario = usuario
 
         if (req.body) {
-            req.body.log_pct_usuario = usuario
+            req.body.userId = usuario
         }
 
         next()

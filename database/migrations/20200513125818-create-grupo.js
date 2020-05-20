@@ -29,7 +29,7 @@ module.exports = {
         type: Sequelize.DATE
       },
       log_pct_usuario: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.INTEGER
       }
     })

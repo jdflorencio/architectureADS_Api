@@ -2,6 +2,7 @@
 class Response {
     constructor(response) {
       this.response = response;
+      console.log('>>>>>')
     }
   
     static HTTP_STATUS() {

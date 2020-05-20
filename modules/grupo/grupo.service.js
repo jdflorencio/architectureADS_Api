@@ -1,4 +1,7 @@
-const {Sequelize ,connection} = require('../../dao/connection')
+const {
+	Sequelize,
+	connection
+} = require('../../dao/connection')
 const grupoModel = require('../../dao/models/grupo.model')
 const helper = require('../grupo/grupo.helper')
 
@@ -13,27 +16,35 @@ class GrupoService {
 	async findById(grupoId) {
 		return await grupoModel.findByPk(grupoId)
 	}
-	
+
 
 	async save(payload) {
-		const transaction = await connection.transaction({ isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.READ_COMMITTED })
+		const transaction = await connection.transaction({
+			isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.READ_COMMITTED
+		})
 
 		try {
-			let validPayload = helper.isValidCreate(payload)			
+			let validPayload = helper.isValidCreate(payload)
 			if (validPayload.error) {
 				return Promise.reject({
-					message         : "Dados de entrada inválidos, verifique os campos obrigatorios",	
-					error           : validPayload.error.msg
+					message: "Dados de entrada inválidos, verifique os campos obrigatorios",
+					error: validPayload.error.msg
 				});
 			}
-					
-			const modelBuild = grupoModel.build(validPayload.value)				
-			await modelBuild.save({ transaction })
+
+			validPayload.value.userId = payload.userId
+			validPayload.value.log_criacao = new Date()
+			const modelBuild = grupoModel.build(validPayload.value)
+			await modelBuild.save({
+				transaction
+			})
 
 			transaction.commit()
 
-		} catch ( error ) {		
-			console.log(errors)	
+			return 'ok'
+
+		} catch (error) {
+			console.log(error)
 			transaction.rollback()
 			throw error
 		}
@@ -41,41 +52,55 @@ class GrupoService {
 
 	async update(payload) {
 
-				
 		let validPayload = helper.isValidUpdate(payload)
-				
+
 		if (validPayload.error) {
 			return Promise.reject({
-				message         : "Dados de entrada inválidos, verifique os campos obrigatorios",
-				error           : validPayload.error.msg
+				message: "Dados de entrada inválidos, verifique os campos obrigatorios",
+				error: validPayload.error.msg
 			});
 		}
-		
+
 		let grupo = await grupoModel.findByPk(validPayload.value.id)
 
-		if(!grupo) {
+		if (!grupo) {
 			return Promise.reject({
 				message: "Grupo não encontrada.",
 				error: ["Grupo não encontrada"]
 			})
 		}
 
-		const transaction = await connection.transaction({ isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.READ_COMMITTED })
+		const transaction = await connection.transaction({
+			isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.READ_COMMITTED
+		})
 
 		try {
-			await grupoModel.update(validPayload.value, {where: {id: grupo.id}}, { transaction })
+			await grupoModel.update(validPayload.value, {
+				where: {
+					id: grupo.id
+				}
+			}, {
+				transaction
+			})
 			transaction.commit()
-			
+
 			return grupo
 
-		} catch ( error ) {
+		} catch (error) {
 			transaction.rollback()
-			return {status: 400, error}
+			return {
+				status: 400,
+				error
+			}
 		}
 	}
 
 	async deleting(grupoId) {
-		return await grupoModel.destroy({ where: {id: grupoId}})
+		return await grupoModel.destroy({
+			where: {
+				id: grupoId
+			}
+		})
 	}
 }
 

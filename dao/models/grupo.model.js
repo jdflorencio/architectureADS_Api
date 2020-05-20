@@ -9,12 +9,16 @@ Grupo.init({
         primaryKey: true,
         autoIncrement: true
     },
+    userId:{
+        type: Sequelize.INTEGER,
+    },    
     descricao: Sequelize.STRING,
     log_criacao: {
         type: Sequelize.DATE
     },
     log_atualizacao: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW
     },
     log_pct_usuario: {
         type: Sequelize.INTEGER

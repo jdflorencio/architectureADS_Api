@@ -2,7 +2,7 @@ const Joi = require('@hapi/joi')
 
 const grupoSchema = {
 	id              : Joi.number().integer().min(1),
-	descricao       : Joi.string().min(1).max(60),
+	descricao       : Joi.string().min(1).max(60).required(),
 }
 
 class GrupoHelper {
@@ -26,16 +26,32 @@ class GrupoHelper {
         return this.resetJoiErrorMessage(result)           
     }
 
+    // resetJoiErrorMessage(joiResult) {
+
+    //   if (joiResult.error) {
+    //     const erro = [];
+    //     if (joiResult.error.details && joiResult.error.details.length > 0) {
+    //       joiResult.error.details.map(function(e) {
+    //         erro.push(e.message);
+    //       });
+    //       joiResult.error.msg = erro;
+      
+    //     }
+    //   }
+    //   return joiResult
+    // }
+
     resetJoiErrorMessage(joiResult) {
 
       if (joiResult.error) {
-        const erro = [];
+        const erro = []
         if (joiResult.error.details && joiResult.error.details.length > 0) {
-          joiResult.error.details.map(function(e) {
+          joiResult.error.details.map(function (e) {
+            erro.push(e.path)
             erro.push(e.message);
-          });
+          })
           joiResult.error.msg = erro;
-          
+  
         }
       }
       return joiResult
