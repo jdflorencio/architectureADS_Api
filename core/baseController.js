@@ -12,7 +12,7 @@ class BaseController {
         return filter
     }
 
-    async getAll() {
+    async getAll(req, res) {
         try {
             const records = await this.service.findAll(
                 this.getFilter(req),
@@ -34,12 +34,11 @@ class BaseController {
                 new ResponsePlus(res).preConditionFailed('Código do Registro inválido ')
                 return
             }
-
             const record = await this.service.findbyId(
                 req.params.id,
                 req.credenciais
             )
-            new ResponsePlus(res).success(error.message)
+            new ResponsePlus(res).success(record)
 
         } catch (error) {
             new ResponsePlus(res).preConditionFailed(error.message)
@@ -58,8 +57,11 @@ class BaseController {
 
     async update(req, res) {
         try {
-            const updateRecord = await this.service.asve(req.body, req.credenciais)
-            new ResponsePlus(res).success(updateRecord)
+
+            req.body.id = req.body.id || req.params.id
+
+            const updatedRecord = await this.service.update(req.body, req.credenciais)
+            new ResponsePlus(res).success(updatedRecord)
         } catch (error) {
             new ResponsePlus(res).preConditionFailed(error.message)
         }
