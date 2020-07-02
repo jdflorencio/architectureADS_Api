@@ -1,17 +1,16 @@
-const {
-	Sequelize,
-	connection
-} = require('../../dao/connection')
+const {	Sequelize, 	connection } = require('../../dao/connection')
+const BaseService = require('../../core/baseService')
 const grupoModel = require('../../dao/models/grupo.model')
 const helper = require('../grupo/grupo.helper')
 
 const Promise = require('bluebird');
 
-class GrupoService {
-
-	async findAll() {
-		return await grupoModel.findAll()
+class GrupoService extends BaseService{
+	constructor() {
+		super(grupoModel, null)
+		
 	}
+
 
 	async findById(grupoId) {
 		return await grupoModel.findByPk(grupoId)
@@ -44,9 +43,7 @@ class GrupoService {
 			return 'ok'
 
 		} catch (error) {
-			console.log(error)
 			transaction.rollback()
-			throw error
 		}
 	}
 

@@ -9,9 +9,9 @@ Grupo.init({
         primaryKey: true,
         autoIncrement: true
     },
-    userId:{
+    userId: {
         type: Sequelize.INTEGER,
-    },    
+    },
     descricao: Sequelize.STRING,
     log_criacao: {
         type: Sequelize.DATE
@@ -33,7 +33,17 @@ Grupo.init({
             singular: 'grupo',
             plural: 'grupos'
         },
-        underscored: false
+        underscored: false,
+        scopes: {
+            tenant(usuarioId) {
+                return {
+                    where: {
+                        userId: usuarioId
+                    }
+                }
+            }
+
+        }
     });
 
 Grupo.hasMany(Subgrupo, {

@@ -14,6 +14,7 @@ const rotaTributacao = require('./modules/tributacao/tributacao.router')
 const rotaNotafiscal = require('./modules/notaFiscal/notaFiscal.router')
 const rotaLogin = require('./modules/login/login.router')
 
+
 /* CONFIG */
 app.use(cors())
 
