@@ -1,3 +1,4 @@
+const { Sequelize, connection } = require('../dao/connection')
 const Promise   = require('bluebird')
 const coreConst = require('./coreConsts')
 class BaseService {
@@ -19,6 +20,24 @@ class BaseService {
 
     async findAll(filter, credenciais) {
         return await this.model(credenciais).findAll(filter)
+    }
+
+    async save(payload, credenciais) {
+
+        const transaction = await connection.transaction({
+            isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.READ_COMMITTED
+        })
+
+        try {
+            let validPayload = helper.IsvalidCreate(payload)
+            if (validPayload.error) {
+                return Promise.reject({
+                    message: "Dados de entrada invalidos, verifique os campos obrigatorios", 
+                    error: validPayload.error.msg
+                })
+            }
+        }
+        
     }
 }
 
