@@ -4,15 +4,19 @@ const app = express()
 const cors = require('cors')
 
 const { ApolloServer, gql } = require('apollo-server-express')
+
+console.log(ApolloServer)
 /* const graphql = require('graphql') */
 const resolvers = require('./graphQL/resolvers')
 const typeDefs  = require('./graphQL/schemas')
 
-const server = new ApolloServer({ typeDefs, resolvers })
-server.applyMiddleware({ app })
-
-
 const authorization = require('./auth/auth')
+
+
+const server = new ApolloServer({ typeDefs, resolvers })
+
+
+
 const rotaPessoa = require('./modules/pessoa/pessoa.router')
 const rotaGrupo = require('./modules/grupo/grupo.router')
 const rotaSubgrupo = require('./modules/subgrupo/subgrupo.router')
@@ -27,7 +31,10 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
 app.use('/api', rotaLogin)
+
 app.use(authorization.readAuthorization)
+server.applyMiddleware({ app })
+
 app.use('/api', rotaPessoa)
 app.use('/api', rotaGrupo)
 app.use('/api', rotaSubgrupo)
