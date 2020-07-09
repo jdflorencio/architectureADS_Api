@@ -36,6 +36,8 @@ class BaseService {
                     error: validPayload.error.msg
                 })
             }
+        } catch(error) {
+
         }
         
     }
