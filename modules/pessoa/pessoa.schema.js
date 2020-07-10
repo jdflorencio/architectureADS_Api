@@ -1,19 +1,19 @@
 const typeDefs = `
-type User {
+type Telefone {
+  telefone: String!
+}
+
+type Pessoa {
   id: ID!
-  name: String!
-  email: String!
+  nome: String!
+  nome_fantasia: String!
+  telefones: [Telefone]
+  
 }
 
 type Query {
-  users: [User!]!
-  user(id: ID!): User
-
-}
-
-type Mutation {
-  createUser(name: String!, email: String!): User
-  
+   pessoas: [Pessoa!]!
+   pessoa(id: ID!): Pessoa
 }`;
 
 module.exports = typeDefs

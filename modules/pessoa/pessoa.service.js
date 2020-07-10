@@ -9,7 +9,8 @@ const Promise = require('bluebird');
 
 class PessoaService {
 
-	async findAll() {
+	async findAll(token) {
+
 		return await pessoaModel.findAll({
 			attributes: [
 				'id',

@@ -1,5 +1,5 @@
 const role = {
-    acessar:  "CLI010",
+    acessar:  "xxxxxx",
     acessarId: "CLI011",
     editar :  "CLI020",
     deletar:  "CLI030",

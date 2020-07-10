@@ -2,18 +2,12 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
 const cors = require('cors')
-
 const { ApolloServer, gql } = require('apollo-server-express')
-
-console.log(ApolloServer)
-/* const graphql = require('graphql') */
 const resolvers = require('./graphQL/resolvers')
 const typeDefs  = require('./graphQL/schemas')
 
 const authorization = require('./auth/auth')
 
-
-const server = new ApolloServer({ typeDefs, resolvers })
 
 
 
@@ -33,6 +27,18 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use('/api', rotaLogin)
 
 app.use(authorization.readAuthorization)
+
+const server = new ApolloServer({ typeDefs, resolvers, 
+  context: ({ req }) => {
+    
+    
+    const credenciais = req.credenciais
+
+    return { credenciais };
+  }
+  
+})
+
 server.applyMiddleware({ app })
 
 app.use('/api', rotaPessoa)
