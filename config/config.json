@@ -3,7 +3,7 @@
         "username":"postgres",
         "password": "123",
         "database": "simpleERP",
-        "host": "127.0.0.1",
+        "host": "db",
         "dialect": "postgres",
         "timezone": "-03:00"
     },
