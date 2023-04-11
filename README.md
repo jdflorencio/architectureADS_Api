@@ -18,7 +18,20 @@ As tecnologias utilizadas neste projeto incluem Node.js, Sequelize, Docker, Post
 
 Apenas a instalação do Docker e do Docker Compose na sua máquina é necessária para executar este projeto.
 
-## 
+## Comandos para iniciar:
+
+'
+    docker-compose up -d 
+'
+
+Após executar o docker-compose, verifique que existem dois contêineres em execução: um para a aplicação, que é exposto na porta 3333 e pode ser acessado em http://localhost:3333, e outro para o banco de dados, que tem o nome do contêiner "app-db".
+
+
+No diretório, há um arquivo chamado "wait-for-it.sh", que verifica se a conexão com o banco de dados está pronta e, em seguida, executa as migrações e os seeders necessários para que esta API funcione corretamente.
+
+
+
+
 
 
 

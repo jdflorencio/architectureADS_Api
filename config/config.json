@@ -8,12 +8,7 @@
         "timezone": "-03:00"
     },
     "production": {
-        "username":"nhijzlepphqlxp",
-        "password": "d59ddf17d1b1382b86857abce223634b757c320303a8026fcfc1f7119569e8fd",
-        "database": "dfoodf6vq3gqvs",
-        "host": "ec2-54-211-255-161.compute-1.amazonaws.com",
-        "dialect": "postgres",
-        "timezone": "-03:00"
+      
     }
 }
 
