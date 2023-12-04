@@ -1,5 +1,8 @@
 # Imagem base do Node.js
-FROM node:12.22.12
+FROM node:12-slim
+
+# isso permite que o containe fique de pé para brincar com ele
+#CMD ["tail", "-f", "/dev/null"]
 
 # Cria o diretório do app
 WORKDIR /app
@@ -7,7 +10,7 @@ WORKDIR /app
 # Copia os arquivos package.json e package-lock.json para o diretório do app
 COPY package*.json ./
 
-RUN apt-get update && apt-get install -y netcat
+##RUN apt-get update  && apt-get install -y netcat
 
 
 # Instala as dependências do app
@@ -16,7 +19,7 @@ RUN npm install && npm install -g nodemon && npm install --save-dev sequelize-cl
 # Copia o restante dos arquivos para o diretório do app
 COPY . .
 
-# Expõe a porta 3000
+# Expõe a po rta 3000
 EXPOSE 3333
 
 # Inicia o app com o Nodemon

@@ -10,7 +10,7 @@ services:
       - .:/usr/app
     depends_on:
       - db
-    command: bash -c "./wait-for-it.sh && npm start"
+    #command: bash -c "./wait-for-it.sh && npm start"
     networks:
       - nwads
 
