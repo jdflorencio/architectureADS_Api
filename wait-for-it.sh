@@ -11,5 +11,5 @@ done
 
 # Executa os comandos após o banco de dados estar disponível
 
-npx sequelize-cli db:migrate
-npx sequelize-cli db:seed:all
+#npx sequelize-cli db:migrate
+#npx sequelize-cli db:seed:all

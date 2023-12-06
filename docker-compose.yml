@@ -10,10 +10,9 @@ services:
       - .:/usr/app
     depends_on:
       - db
-    #command: bash -c "./wait-for-it.sh && npm start"
+    command: bash -c "./wait-for-it.sh && npm start"
     networks:
       - nwads
-
   db:
     container_name: app-db
     image: postgres
@@ -28,9 +27,15 @@ services:
       - ./data:/data:postgres
     ports:
       - "5432:5432"
+  tests:
+    container_name: app-tests
+    build: .
+    volumes:
+      - .:/usr/src/app
+    command: npm run test:watch
+
 networks:
   nwads:
     driver: bridge
-
 volumes:
   data:
