@@ -1,23 +1,21 @@
 # Imagem base do Node.js
 FROM node:12-buster-slim
 
+RUN apt-get update && apt-get install -y sudo netcat && apt-get clean && rm -rf /var/lib/apt/lists/* 
 
-# Cria o diretório do app
-WORKDIR /app
+USER node
 
-# Copia os arquivos package.json e package-lock.json para o diretório do app
-COPY package*.json ./
+RUN mkdir /home/node/app
 
-# Instala dependências do app e ferramentas necessárias
-RUN apt-get update && apt-get install -y sudo netcat && apt-get clean && rm -rf /var/lib/apt/lists/* && \
-    npm install && npm install -g nodemon && npm install --save-dev sequelize-cli && npm install -g jest && \
-    npx jest --init
+WORKDIR /home/node/app
+
+COPY --chown=node:node package*.json ./
 
 # Copia o restante dos arquivos para o diretório do app
 COPY . .
 
+#RUN chmod +x /home/node/app/wait-for-it.sh
+
 # Expõe a porta 3333
 EXPOSE 3333
 
-# Inicia o app com o Nodemon
-CMD ["npm", "run","start"]

@@ -7,10 +7,12 @@ services:
     ports:
       - "3333:3333"
     volumes:
-      - .:/usr/app
+      - .:/home/node/app
+      #- /home/node/app/node_modules #volume anonymous 
+
     depends_on:
       - db
-    command: bash -c "./wait-for-it.sh && npm start"
+    command: bash -c "./wait-for-it.sh"
     networks:
       - nwads
   db:
@@ -24,16 +26,15 @@ services:
     networks:
       - nwads
     volumes:
-      - ./data:/data:postgres
+      - ./../db/vendasApinode/data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
-  tests:
-    container_name: app-tests
-    build: .
-    volumes:
-      - .:/usr/src/app
-    command: npm run test:watch
-
+  #tests:
+  #  container_name: app-tests
+  #  build: .
+  #  volumes:
+  #    - .:/usr/app
+  #  command: npm run test:watch
 networks:
   nwads:
     driver: bridge
